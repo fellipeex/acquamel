@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+        <title>Criar Saída</title>
+        <!-- Required meta tags -->
+        <%- include('../partials/head'); %>
+  </head>
+  <body>
+    <header>
+      <%- include('../partials/header'); %>
+    </header>
+    <div class="container mt-4">
+        <div class="card border-secondary">
+            <div class="card-header bg-success">
+                <h4 class="text-white">Nova Entrada</h4>
+            </div>
+            <div class="card-body">
+                <form action="/saveEnt" method="POST">
+                    <div class="mb-3">
+                        <label for="Pedido" class="form-label">Nome Entrada</label>
+                        <input type="text" class="form-control" id="nomeEnt" name="nomeEnt" tabindex="1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Pedido" class="form-label">caminhao ID</label>
+                        <input type="text" class="form-control" id="camEnt" name="camEnt" tabindex="2">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Pedido" class="form-label">Cliente</label>
+                        <input type="text" class="form-control" id="cliEnt" name="cliEnt" tabindex="3">
+                    </div> 
+                    <div class="mb-3">
+                        <label for="Pedido" class="form-label">Vendedor</label>
+                        <input type="text" class="form-control" id="vendEnt" name="vendEnt" tabindex="4">  
+                    </div>
+                    <div class="mb-3">
+                        <label for="Pedido" class="form-label">Motorista</label>
+                        <input type="text" class="form-control" id="motoEnt" name="motoEnt" tabindex="5">  
+                    </div>
+                    <div class="mb-3">
+                        <label for="Pedido" class="form-label">Valor</label>
+                        <input type="text" class="form-control" id="valorEnt" name="valorEnt" tabindex="6">  
+                    </div>
+                    <div class="mb-3">
+                        <label for="Pedido" class="form-label">Quantidade</label>
+                        <input type="text" class="form-control" id="qtdEnt" name="qtdEnt" tabindex="7">  
+                    </div>
+                    <!--<div class="mb-3">
+                        <label for="Pedido" class="form-label">Total</label>
+                        <input type="text" class="form-control" id="totalEnt" name="totalEnt" tabindex="8">  
+                    </div>-->
+                    <div class="mb-3">
+                        <label for="Pedido" class="form-label">Data Entrada</label>
+                        <input type="date" class="form-control" id="dataEnt" name="dataEnt" tabindex="9">  
+                    </div>
+                    <div class="mb-3">
+                        <label for="Pedido" class="form-label">Obs.</label>
+                        <input type="text" class="form-control" id="obsEnt" name="obsEnt" tabindex="10">  
+                    </div>       
+                    <button type="submit" class="btn btn-success" tabindex="11" title="Salvar">
+                        <i class="bi bi-save"></i> 
+                    </button>     
+                    <a href="/entrada" class="btn btn-secondary" tabindex="6" title="Voltar">
+                        <i class="bi bi-arrow-return-left"></i>
+                    </a>    
+                </form>
+            </div>
+        </div>    
+    </div>
+    <footer>
+      <%- include('../partials/footer'); %>
+    </footer>  
+  </body>
+</html>

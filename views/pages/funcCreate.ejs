@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+        <title>Criar Funcionário</title>
+        <!-- Required meta tags -->
+        <%- include('../partials/head'); %>
+  </head>
+  <body>
+    <header>
+      <%- include('../partials/header'); %>
+    </header>
+    <div class="container mt-4">
+        <div class="card border-secondary">
+            <div class="card-header bg-primary">
+                <h4 class="text-white">Novo Funcionário</h4>
+            </div>
+            <div class="card-body">
+                <form action="/saveFunc" method="POST">
+                    <div class="mb-3">
+                        <label for="user" class="form-label">Nome Funcionário</label>
+                        <input type="text" class="form-control" id="nomeFunc" name="nomeFunc" tabindex="1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="user" class="form-label">CTPS</label>
+                        <input type="text" class="form-control" id="ctpsFunc" name="ctpsFunc" tabindex="2">
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-lg-6 col-md-12">
+                            <label for="user" class="form-label">RG</label>
+                            <input type="text" class="form-control" id="rgFunc" name="rgFunc" tabindex="3">
+                        </div>
+                       
+                        <div class="mb-3 col-lg-6 col-md-12">
+                            <label for="user" class="form-label">CPF</label>
+                            <input type="text" class="form-control" id="cpfFunc" name="cpfFunc" tabindex="4">
+                        </div>
+                    </div>  
+                    <div class="mb-3">
+                        <label for="user" class="form-label">Endereço</label>
+                        <input type="text" class="form-control" id="endFunc" name="endFunc" tabindex="5">
+                    </div> 
+                    <div class="row">
+                        <div class="mb-3 col-lg-6 col-md-12">
+                            <label for="user" class="form-label">Bairro</label>
+                            <input type="text" class="form-control" id="bairroFunc" name="bairroFunc" tabindex="6">
+                        </div> 
+                        <div class="mb-3 col-lg-6 col-md-12">
+                            <label for="user" class="form-label">CEP</label>
+                            <input type="text" class="form-control" id="cepFunc" name="cepFunc" tabindex="7">
+                        </div>
+                    </div>
+                    <div class="row">     
+                        <div class="mb-3 col-lg-3 col-md-12">
+                            <label for="user" class="form-label">Status</label>
+                            <select id="statusFunc" name="statusFunc" class="form-select"  tabindex="8">
+                                <option value="Ligado">Ligado</option>
+                                <option value="Desligado">Desligado</option>
+                            </select> 
+                        </div> 
+                        <div class="mb-3 col-lg-6 col-md-12">
+                            <label for="user" class="form-label">Salario</label>
+                            <input type="text" class="form-control" id="salarioFunc" name="salarioFunc" tabindex="9">
+                        </div>
+                    </div>     
+                    <div class="mb-3">
+                        <label for="user" class="form-label">Cargo</label>
+                        <input type="text" class="form-control" id="cargoFunc" name="cargoFunc" tabindex="10">
+                    </div> 
+                    <div class="mb-3">
+                        <label for="user" class="form-label">Entrada</label>
+                        <input type="date" class="form-control" id="entradaFunc" name="entradaFunc" tabindex="11">
+                    </div> 
+                    <div class="mb-3">
+                        <label for="user" class="form-label">Saida</label>
+                        <input type="text" class="form-control" id="saidaFunc" name="saidaFunc" tabindex="12">
+                    </div>   
+                    
+                    <button type="submit" class="btn btn-primary" tabindex="13" title="Salvar">
+                        <i class="bi bi-save"></i> 
+                    </button>     
+                    <a href="/funcionarios" class="btn btn-secondary" tabindex="14" title="Voltar">
+                        <i class="bi bi-arrow-return-left"></i>
+                    </a>     
+                </form>
+            </div>
+        </div>    
+    </div>
+    <footer>
+      <%- include('../partials/footer'); %>
+    </footer>  
+  </body>
+</html>

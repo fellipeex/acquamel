@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+        <title>Usuarios</title>
+        <%- include('../partials/head'); %>
+  </head>  
+  <body>
+    <header>
+      <%- include('../partials/header'); %>
+    </header>
+    <div class="container">
+        <a href="/novoUsuario" class="btn btn-outline-primary mt-4">
+          <i class="bi bi-plus-circle-fill" style="font-size:30px;"></i>
+        </a>
+        <table id="usu" class="table table-bordered table-striped text-center md-4">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th scope="col">ID</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Hierarquia</th>
+                    <th scope="col">Ultimo login</th>
+                    <th scope="col">Ações</th>
+                </tr>    
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <footer>
+      <%- include('../partials/footer'); %>
+    </footer>
+    
+  <script>
+    $(document).ready(function() {
+    $('#usu').DataTable({
+      ajax:{
+        url:"/getUsuarios",
+        dataSrc:""
+      },
+      columns:[
+        {data:null, 
+          "render":function(data){
+            return '<a href="/infosUsuario/'+ data.u_id +'" class="btn btn-sm btn-outline-secondary" title="Ver mais"><i class="bi bi-eye-fill"></i></a><br>'+ data.u_id;
+          }
+        },
+        {data:"u_nome"},
+        {data:"u_email"},             
+        {data:"u_class"},             
+        {data:"u_last_login"},
+        {data:null,
+          "render": function(data){
+            return '<a href="/userEdit/' + data.u_id + '" class="btn btn-outline-secondary" title="Editar"><i class="bi bi-pencil-fill"></i></a>'+
+                    '<a class="btn btn-outline-danger" onclick="confirmar(' + data.u_id + ' )" title="Apagar"><i class="bi bi-trash-fill"></i></a>'
+          }
+        }
+      ],
+      pageLenght:5,
+      lenghtMenu:[[5,10,20,-1],[5,10,20,'Todos']]
+    });
+
+} );
+    function confirmar(id) {
+      Swal.fire({
+        title: 'Tem certeza que deseja apagar Usuário ' + id +'?',
+        text: "Você não poderá reverter isso.",
+        icon: 'warning',
+        showDenyButton: true,
+        confirmButtonColor: '#ff0000',
+        denyButtonColor: '#8d8d8d',
+        denyButtonText: 'Cancelar',
+        confirmButtonText: 'Apagar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location = '/userDel/' + id;
+        }
+      })
+    }
+  </script>
+
+  </body>
+</html>
+

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+        <title>Criar Saída</title>
+        <!-- Required meta tags -->
+        <%- include('../partials/head'); %>
+  </head>
+  <body>
+    <header>
+      <%- include('../partials/header'); %>
+    </header>
+    <div class="container mt-4">
+        <div class="card border-secondary">
+            <div class="card-header bg-danger">
+                <h4 class="text-white">Nova Saída</h4>
+            </div>
+            <div class="card-body">
+                <form action="/saveSaida" method="POST">
+                    <div class="mb-3">
+                        <label for="saida" class="form-label">Nome Saída</label>
+                        <input type="text" class="form-control" id="nomeSaida" name="nomeSaida" tabindex="1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="saida" class="form-label">Valor</label>
+                        <input type="text" class="form-control" id="valorSaida" name="valorSaida" tabindex="2">
+                    </div>
+                    <div class="mb-3">
+                        <label for="saida" class="form-label">Data</label>
+                        <input type="date" class="form-control" id="dataSaida" name="dataSaida" tabindex="3">
+                    </div> 
+                    <div class="mb-3">
+                        <label for="saida" class="form-label">Obs.</label>
+                        <input type="text" class="form-control" id="obsSaida" name="obsSaida" tabindex="4">  
+                    </div> 
+                    <button type="submit" class="btn btn-danger" tabindex="5" title="Salvar">
+                        <i class="bi bi-save"></i> 
+                    </button>     
+                    <a href="/saida" class="btn btn-secondary" tabindex="6" title="Voltar">
+                        <i class="bi bi-arrow-return-left"></i>
+                    </a>    
+                </form>
+            </div>
+        </div>    
+    </div>
+    <footer>
+      <%- include('../partials/footer'); %>
+    </footer>  
+  </body>
+</html>

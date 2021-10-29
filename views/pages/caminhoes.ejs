@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+  <title>Saída</title>
+  <%- include('../partials/head'); %>
+</head>
+
+<body>
+  <header>
+    <%- include('../partials/header'); %>
+  </header>
+  <div class="container">
+    <a href="/camCreate" class="btn btn-outline-warning mt-4">
+      <i class="bi bi-plus-circle-fill" style="font-size:30px;"></i>
+    </a>
+    <table class="table table-bordered table-striped text-center md-4">
+      <thead>
+        <tr class="bg-warning text-white">
+          <th scope="col">ID</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Placa</th>
+          <th scope="col">Ano</th>
+          <th scope="col">Tamanho</th>
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% results.forEach((tb_caminhao)=> { %>
+          <tr>
+            <td>
+              <a href="/camGet/<%= tb_caminhao.cam_id %>" class="btn btn-sm btn-outline-secondary" title="Editar">
+                <i class="bi bi-eye-fill"></i>
+              </a>
+              <br>
+              <%= tb_caminhao.cam_id %>
+            </td>
+            <td>
+              <%= tb_caminhao.cam_nome %>
+            </td>
+            <td>
+              <%= tb_caminhao.cam_placa %>
+            </td>
+            <td>
+              <%= tb_caminhao.cam_ano %>
+            </td>
+            <td>
+              <%= tb_caminhao.cam_tamanho%>
+            </td>
+            <td>
+              <a href="/camEdit/<%= tb_caminhao.cam_id %>" class="btn btn-outline-secondary" title="Editar">
+                <i class="bi bi-pencil-fill"></i>
+              </a>
+              <a class="btn btn-outline-danger" onclick="confirmar(' <%= tb_caminhao.cam_id %>' )" title="Apagar">
+                <i class="bi bi-trash-fill"></i>
+              </a>
+            </td>
+          </tr>
+          <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <footer>
+    <%- include('../partials/footer'); %>
+  </footer>
+
+  <script>
+    function confirmar(id) {
+      Swal.fire({
+        title: 'Tem certeza que deseja apagar Caminhão?',
+        text: "Você não poderá reverter isso.",
+        icon: 'warning',
+        showDenyButton: true,
+        confirmButtonColor: '#ff0000',
+        denyButtonColor: '#8d8d8d',
+        denyButtonText: 'Cancelar',
+        confirmButtonText: 'Apagar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location = '/camDel/' + id;
+        }
+      })
+    }
+  </script>
+</body>
+
+</html>

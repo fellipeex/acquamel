@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+    <title>Editar Usuário</title>
+    <%- include('../partials/head'); %>
+</head>
+
+<body onload="iniciar()">
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+
+    <div  class="container mt-4" spry:region="formUser">
+        <h1 id="demo">WEPPA</h1>
+        <table id="usu" class="table table-bordered table-striped text-center md-4">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th id="id" scope="col">Ver dados completos do Usuário {id}</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+    <script>
+        
+        function iniciar(){
+            var url = "/getUser/"+"<%-id%>";
+            var req = new XMLHttpRequest();
+            req.open('GET', url);
+            req.responseType = '';
+            req.send();
+            var usu = JSON.stringify(req.response);
+            console.log(url);
+            console.log(usu);
+             
+            
+        };
+           
+                   
+                
+    </script>
+</body>
+
+</html>

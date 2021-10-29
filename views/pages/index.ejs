@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+        <title>Index</title>
+        <%- include('../partials/head') %>
+  </head>  
+  <body>
+    <header>
+      <%- include('../partials/header') %>
+    </header>
+    <div class="botoes d-flex justify-content-center">
+        <div class="col-sm-12 col-md-4 col-lg-5 col-xl-5 wepa">
+            <a href="/entrada" class="btn btn-lg btn-outline-success btn-inicio">
+            <i class="bi bi-arrow-down-circle-fill" style="font-size: 1.5rem; "></i> Entrada
+          </a>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-5 col-xl-5 wepa">
+          <a href="/saida" class="btn btn-lg btn-outline-danger btn-inicio">
+            <i class="bi bi-arrow-up-circle-fill" style="font-size: 1.5rem; "></i> Saída
+          </a>
+        
+      </div>
+        <div class="col-sm-12 col-md-3 col-lg-5 col-xl-5 wepa">
+          <a href="/funcionarios" class="btn btn-lg btn-outline-primary btn-inicio">
+            <i class="bi bi-building" style="font-size: 1.5rem;"></i>Funcionários            
+          </a>
+          </div>
+        <div class="col-sm-12 col-md-3 col-lg-5 col-xl-5 wepa">
+          <a href="/caminhoes" class="btn btn-lg btn-outline-warning btn-inicio">
+            <i class="bi bi-truck" style="font-size: 1.5rem; "></i> Caminhões
+          </a>
+      </div>
+      <div class="col-sm-12 col-md-3 col-lg-5 col-xl-5 wepa">
+        <a href="/clientes" class="btn btn-lg btn-outline-info btn-inicio">
+          <i class="bi bi-people-fill" style="font-size: 1.5rem; "></i>  Clientes
+        </a>
+    </div>
+    </div>
+    <footer>
+      <%- include('../partials/footer') %>
+    </footer>
+  </body>
+</html>
