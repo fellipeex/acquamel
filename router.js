@@ -12,10 +12,8 @@ router.get('/', (req, res) => {
 
 //ROTAS PARA PÁGINAS  
 router.get('/usuarios', (req, res) => {
-      res.render('pages/usuarios.ejs',);
-    }
-  );
-
+  res.render('pages/usuarios.ejs',);
+});
 router.get('/novoUsuario', (req, res) => {
   res.render('pages/userCreate.ejs',);
 });
@@ -26,7 +24,7 @@ router.get('/infosUsuario/:id', (req, res) => {
 router.get('/editarUsuario', (req, res) => {
   res.render('pages/editarUsuario.ejs',);
 });
-
+//ROTAS PARA JSON DE TODOS OS USUÁRIOS  
 router.get('/getUsuarios', (req, res) => {
   conn.query('SELECT * FROM tb_usuario', (error, results) => {
     if (error) {
@@ -38,7 +36,7 @@ router.get('/getUsuarios', (req, res) => {
   })
 });
 
-//ROTAS PARA GET USUARIO
+//ROTAS PARA GET USUARIO EXPECÍFICO
 router.get('/getUser/:id', (req, res) => {
   const id = req.params.id;
   conn.query('SELECT * FROM tb_usuario WHERE u_id=?', [id], (error, results) => {
@@ -51,7 +49,7 @@ router.get('/getUser/:id', (req, res) => {
   })
 });
 
-//ROTA DE ELIMINAÇÃO
+//ROTA DE ELIMINAÇÃO DE USUÁRIO ESPECÍFICO
 router.get('/userDel/:id', (req, res) => {
   const id = req.params.id;
   conn.query('DELETE FROM tb_usuario WHERE u_id=?', [id], (error, results) => {
