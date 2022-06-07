@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+        <title>Editar Usuário</title>
+        <%- include('../../partials/head'); %>
+  </head>
+  <body onload="iniciar()">
+    <header>
+        <%- include('../../partials/header'),{nomeUsr:nomeUsr}; %>
+    </header>
+    <div class="container mt-4">
+        <div class="card border-secondary">
+            <div class="card-header bg-danger">
+                <h4 class="text-white" id="titulo">Visualização de Saída: <%=id%></h4>
+            </div>
+            <div class="card-body">
+                <div class="dados mt-0 px-3">
+                    <div class="linha">
+                        <strong>ID:</strong>
+                        <p class="pe" id="idSaida"></p>
+                    </div>
+                    <div class="linha">
+                        <strong>Nome Saída: </strong>
+                        <p class="pe" id="nomeSaida"></p>
+                    </div>
+                    <div class="linha">
+                        <strong>Categoria: </strong>
+                        <p class="pe" id="categoriaSaida"></p>
+                    </div>
+                    <div class="row">
+                        <div class="linha col-md-6 col-sm-12">
+                            <strong>Valor:</strong>
+                            <p class="pe" id="valorSaida"></p>
+                        </div>
+                        <div class="linha col-md-6 col-sm-12">
+                            <strong>Data: </strong>
+                            <p class="pe" id="dataSaida"></p>
+                        </div>
+                    </div>
+                    <div class="linha">
+                        <strong>OBS.:</strong>
+                        <p class="pe" id="obsSaida"></p>
+                    </div>
+                    <a href="/saidas" class="btn btn-secondary" tabindex="1" title="Voltar">
+                        <i class="bi bi-arrow-return-left"></i>
+                    </a>  
+                    <a href="/editarSaida/<%= id %>" class="btn btn-danger" tabindex="2" title="Editar">
+                        <i class="bi bi-pencil-fill"></i> 
+                    </a>     
+                </div>
+            </div>    
+        </div>    
+    </div>
+    <footer>
+      <%- include('../../partials/footer'); %>
+    </footer>
+    <script>   
+    function iniciar(){
+        let url = "/getSaida/"+'<%=id%>';
+        console.log(url);
+        const loadData = () => {
+            const req = new XMLHttpRequest();
+            req.onload = reqListener;
+            req.open("get", url, true);
+            req.send();
+        };
+        const reqListener = response => {
+        let a = JSON.parse(response.currentTarget.response);
+        let sai = a[0];
+        //declatação das variaveis
+        let t1 = document.getElementById("titulo");
+        let sid = document.getElementById("idSaida");
+        let nome = document.getElementById("nomeSaida");
+        let categoria = document.getElementById("categoriaSaida");
+        let vlr = document.getElementById("valorSaida");
+        let dataS = document.getElementById("dataSaida");
+        let obs = document.getElementById("obsSaida");
+        // definindo valores no HTML
+        t1.innerHTML = "Visualização de Saída: " + sai.saida_id;
+        sid.innerHTML = sai.saida_id;
+        nome.innerHTML = sai.saida_nome; 
+        categoria.innerHTML = sai.saida_categoria;
+        vlr.innerHTML = "R$ "+ sai.total.toFixed(2);
+        dataS.innerHTML = sai.data; 
+        obs.innerHTML = sai.saida_obs;
+        };
+        loadData();
+    }; 
+    </script>
+
+   </body>
+</html>

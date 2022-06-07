@@ -1,0 +1,116 @@
+body,html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #FFF;
+}
+#login{
+    z-index:2;
+}
+#canvas66{
+    z-index:0;
+    position:absolute;
+    top: 0;left: 0;
+    width: 100%;
+    height:100%;
+    background: linear-gradient(130deg, #136EF0,#12A1E6,#2D13F0,#6512E6,#1C38D9,#142899);
+}
+.user_card {
+    height: 400px;
+    width: 350px;
+    margin-top: 25vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+    background: rgba(2, 18, 88, 0.7);
+
+}
+.brand_login_container {
+    position: absolute;
+    height: 170px;
+    width: 170px;
+    top: -75px;
+    border-radius: 50%;
+    padding: 10px;
+    text-align: center;
+    background: -webkit-linear-gradient(120deg ,#888888,#e4e4e4, #FFFFFF);   
+    background:    -moz-linear-gradient(120deg, #888888,#e4e4e4, #FFFFFF); 
+    background:     -ms-linear-gradient(120deg ,#888888,#e4e4e4, #FFFFFF); 
+    background:      -o-linear-gradient(120deg ,#888888,#e4e4e4, #FFFFFF);
+}
+.brand_login {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+.form_container {
+    margin-top: 100px;
+}
+.login_btn {
+    width: 100%;
+    background: #2D13F0 !important;
+    color: white !important;
+}
+.login_btn:focus {
+    box-shadow: none !important;
+    outline: 0px !important;
+}
+.login_container {
+    padding: 0 2rem;
+}
+.input-group-text {
+    background: #2D13F0 !important;
+    color: white !important;
+    border: 0 !important;
+    border-radius: 0.25rem 0 0 0.25rem !important;
+}
+.input_user,
+.input_pass:focus {
+    box-shadow: none !important;
+    outline: 0px !important;
+}
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+    background-color: #c0392b !important;
+}
+/**               SWEET ALERT   */
+.swal2-icon{
+    border: 0.15em solid transparent;
+}
+.swal2-icon.swal2-warning {
+    border-color: #ff0000;
+    color: #ff0000;
+    width: 8rem;
+    height: 8rem;
+}
+.swal2-icon .swal2-icon-content {
+    font-size: 5.75rem;
+}
+button.swal2-deny{
+    color: #fff;
+    background-color: #666666;
+    border-color: #666666;
+}
+button.swal2-deny:hover{
+    color: #fff;
+    background-color: #a7a7a7;
+    border-color: #a7a7a7;
+}
+
+button.swal2-confirm{
+    margin-right: 16px;
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+button.swal2-confirm:hover {
+    color: #fff;
+    background-color: #ff6877;
+    border-color: #ff6877;
+}

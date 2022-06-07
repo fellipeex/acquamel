@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+        <title>Informações Funcionário</title>
+        <%- include('../../partials/head'); %>
+  </head>
+  <body onload="iniciar()">
+    <header>
+        <%- include('../../partials/header'),{nomeUsr:nomeUsr}; %>
+      </header>
+      <div class="border border-top-0 rounded m-5">
+            <div class="bg-primary rounded-top text-white px-3">
+                <h2 id="titulo">Visualização de Funcionário: </h2>
+            </div>
+            <div class="card-body">
+                <div class="dados mt-0 px-3">
+                    <div class="linha">
+                        <strong>ID:</strong>
+                        <p class="pe" id="id"></p>
+                    </div>
+                    <div class="linha">
+                        <strong>Nome: </strong>
+                        <p class="pe" id="nomeFunc"></p>
+                    </div>
+                    <div class="linha">
+                        <strong>CTPS: </strong>
+                        <p class="pe" id="ctpsFunc"></p>
+                    </div>
+                    <div class="linha">
+                        <strong>RG: </strong>
+                        <p class="pe" id="rgFunc"></p>
+                    </div>
+                    <div class="linha">
+                        <strong>CPF: </strong>
+                        <p class="pe" id="cpfFunc"></p>
+                    </div>
+                    <div class="linha">
+                        <strong>Endereco: </strong>
+                        <p class="pe" id="endFunc"></p>
+                    </div>
+                    <div class="linha">
+                        <strong>Bairro: </strong>
+                        <p class="pe" id="bairroFunc"></p>
+                    </div>
+                    <div class="linha">
+                        <strong>CEP: </strong>
+                        <p class="pe" id="cepFunc"></p>
+                    </div>
+                    <div class="linha">
+                        <strong>STATUS: </strong>
+                        <p class="pe" id="statusFunc"></p>
+                    </div>
+                    <div class="linha">
+                        <strong>Salário: </strong>
+                        <p class="pe" id="salarioFunc"></p>
+                    </div>
+                    <div class="linha">
+                        <strong>Cargo: </strong>
+                        <p class="pe" id="cargoFunc"></p>
+                    </div>
+                    <div class="linha">
+                        <strong>Entrada: </strong>
+                        <p class="pe" id="entFunc"></p>
+                    </div>
+                    <div class="linha">
+                        <strong>Saída: </strong>
+                        <p class="pe" id="saidaFunc"></p>
+                    </div>
+                    <a href="/editarFuncionario/<%= id %>" class="btn btn-primary" tabindex="1" title="Editar">
+                        <i class="bi bi-pencil-fill"></i> 
+                    </a>     
+                    <a href="/funcionarios" class="btn btn-secondary" tabindex="2" title="Voltar">
+                        <i class="bi bi-arrow-return-left"></i>
+                    </a>     
+                </div>
+            </div>
+        </div>    
+    </div>
+    <footer>
+      <%- include('../../partials/footer'); %>
+    </footer>
+    <script>     
+        function iniciar(){
+            let url = "/getFunc/"+"<%=id%>";
+            const loadData = () => {
+                const req = new XMLHttpRequest();
+                req.onload = reqListener;
+                req.open("get", url, true);
+                req.send();
+            };
+            const reqListener = response => {
+            let a = JSON.parse(response.currentTarget.response);
+            let func = a[0];
+            //declatação das variaveis
+            let t1 = document.getElementById("titulo");
+            let fid = document.getElementById("id");
+            let nome = document.getElementById("nomeFunc");
+            let ctps = document.getElementById("ctpsFunc");
+            let rg = document.getElementById("rgFunc");
+            let cpf = document.getElementById("cpfFunc");
+            let end = document.getElementById("endFunc");
+            let bairro = document.getElementById("bairroFunc");
+            let cep = document.getElementById("cepFunc");
+            let status = document.getElementById("statusFunc");
+            let salario = document.getElementById("salarioFunc");
+            let cargo = document.getElementById("cargoFunc");
+            let entrada = document.getElementById("entFunc");
+            let saida = document.getElementById("saidaFunc");
+            // definindo valores no HTML
+            t1.innerHTML = "Visualização de Funcionário: " + func.func_nome;
+            fid.innerHTML =  func.func_id;
+            nome.innerHTML = func.func_nome
+            ctps.innerHTML =  func.func_ctps;
+            rg.innerHTML =  func.func_rg;
+            cpf.innerHTML =  func.func_cpf;
+            end.innerHTML =  func.func_endereco;
+            bairro.innerHTML =  func.func_bairro;
+            cep.innerHTML =  func.func_cep;
+            status.innerHTML =  func.func_status;
+            salario.innerHTML = "R$ "+ func.func_salario.toFixed(2);
+            cargo.innerHTML =  func.func_cargo;
+            entrada.innerHTML =  func.func_entrada;
+            saida.innerHTML =  func.func_saida;           
+            };
+            loadData();
+        };   
+    </script>    
+   </body>
+</html>

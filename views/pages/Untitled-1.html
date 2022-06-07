@@ -1,0 +1,30 @@
+
+columns: [
+    {
+        data: null,
+        "render": function (data) {
+            return '<div class="card-body">' +
+                '<div class="mb-3">' +
+                '<p><strong>Usuário: </strong>' + data.u_nome + '</p></div>' +
+
+                '<div class="mb-3">' +
+                '<p><strong>Email: </strong>' + data.u_email + '</p></div>' +
+                '<div class="mb-3">' +
+                '<p><strong>Senha: </strong>' + data.u_senha + '</p></div>' +
+                '<div class="mb-3">' +
+                '<p><strong>Classe: </strong>' + data.u_class + '</p></div>' +
+                '<div class="mb-3">'
+            '<p><strong>Foto: </strong>' + data.u_foto + '</p></div>' +
+                '<div class="mb-3">'
+            '<p><strong>Ultimo Login: </strong>' + data.u_foto + '</p></div>' +
+                '<a href="/userEdit/' + data.u_id + '" class="btn btn-primary" tabindex="1" title="Editar">' +
+                '<i class="bi bi-pencil-fill"></i></a>'
+            '<a href="/usuarios" class="btn btn-secondary" tabindex="2" title="Voltar">' +
+                '<i class="bi bi-arrow-return-left"></i></a></div>';
+        }
+    }],
+pageLenght: 1,
+lenghtMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']]
+});
+
+});

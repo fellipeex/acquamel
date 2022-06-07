@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+  <title>Saída</title>
+  <%- include('../../partials/head'); %>
+</head>
+
+<body>
+  <header>
+    <%- include('../../partials/header'),{nomeUsr:nomeUsr}; %>
+  </header>
+  <a href="/novaSaida" class="btn-flutuante btn-outline-danger">
+    <i class="bi bi-plus-circle-fill" style="font-size:30px;"></i>
+  </a>
+  <div class="container mt-4">
+    <table id="saidas" class="table table-bordered table-striped text-center md-4">
+      <thead>
+        <tr class="bg-danger text-white">
+          <th scope="col">ID</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Categoria</th>
+          <th scope="col">Valor</th>
+          <th scope="col">Data</th>
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+  <footer>
+    <%- include('../../partials/footer'); %>
+  </footer>
+  <script>
+    $(document).ready(function () {
+      $('#saidas').DataTable({
+        ajax: {
+          url: "/getSaida",
+          dataSrc: ""
+        },
+        columns: [
+          {
+            data: null,
+            "render": function (data) {
+              return '<a href="/infosSaida/' + data.saida_id +
+                '" class="btn btn-sm btn-outline-secondary" title="Ver mais">' +
+                '<i class="bi bi-eye-fill"></i></a><br>' + data.saida_id;
+            }
+          },
+          { data: "saida_nome" },
+          { data: "saida_categoria" },
+          { data: "total" },
+          { data: "data" },
+
+          {
+            data: null,
+            "render": function (data) {
+              return '<a href="/editarSaida/' + data.saida_id + '" class="btn btn-outline-secondary" title="Editar">' +
+                '<i class="bi bi-pencil-fill"></i></a><a class="btn btn-outline-danger"' +
+                ' onclick="confirmar(' + data.saida_id + ' )" title="Apagar"><i class="bi bi-trash-fill"></i></a>'
+            }
+          }
+        ],
+        pageLenght: 5,
+        lenghtMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']]
+      });
+
+    });
+    function confirmar(id) {
+      Swal.fire({
+        title: 'Tem certeza que deseja apagar Saída?',
+        text: "Você não poderá reverter isso.",
+        icon: 'warning',
+        showDenyButton: true,
+        confirmButtonColor: '#ff0000',
+        denyButtonColor: '#8d8d8d',
+        denyButtonText: 'Cancelar',
+        confirmButtonText: 'Apagar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location = '/delSaida/' + id;
+        }
+      })
+    }
+  </script>
+  <% if(typeof alert !="undefined" ){ %>
+    <script>
+      Swal.fire({
+        title: '<%=aTitle%>',
+        text: '<%=aText%>',
+        icon: '<%=aIcon%>',
+        showConfirmButton: '<%=scb%>',
+        timer: '<%=timer%>'
+      }).then(() => {
+        window.location = '<%=rota%>'
+      })
+    </script>
+    <% } %>
+</body>
+
+</html>

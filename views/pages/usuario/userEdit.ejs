@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+        <title>Editar Usuário</title>
+        <%- include('../../partials/head'); %>
+  </head>
+  <body onload="iniciar()">
+    <header>
+        <%- include('../../partials/header'),{nomeUsr:nomeUsr}; %>
+    </header>
+    <div class="container mt-4">
+        <div class="card border-secondary">
+            <div class="card-header bg-primary">
+                <h4 id="titulo">Editar Usuário:</h4>
+            </div>
+            <div class="card-body">
+                <form action="/updateUsr" method="POST">
+                    <input type="text" name="id" id="id" hidden>
+                    <div class="mb-3">
+                        <label for="user" class="form-label">Usuário</label>
+                        <input type="text" class="form-control" id="nome" name="nome" tabindex="1" >
+                    </div>
+                    <div class="mb-3">
+                        <label for="user" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="email" name="email" tabindex="2">
+                    </div>
+                    <div class="mb-3">
+                        <label for="user" class="form-label">Senha</label>
+                        <input type="text" class="form-control" id="senha" name="senha" tabindex="3" >
+                    </div> 
+                    <div class="mb-3">
+                        <label for="user" class="form-label">Classe</label>
+                        <select id="classe" name="classe" class="form-select"  tabindex="4"> 
+                            <option  value="admin">Admin</option>
+                            <option  value="comum">Comum</option>
+                        </select>    
+                    </div> 
+                    <div class="mb-3">
+                        <label for="user" class="form-label">Foto</label>
+                        <input type="text" class="form-control" id="foto" name="foto" tabindex="5" >
+                    </div>
+                    <button type="submit" class="btn btn-primary" tabindex="6" title="Salvar">
+                        <i class="bi bi-save"></i> 
+                    </button>     
+                    <a href="/usuarios" class="btn btn-secondary" tabindex="7" title="Voltar">
+                        <i class="bi bi-arrow-return-left"></i>
+                    </a>    
+                </form>
+            </div>
+        </div>    
+    </div>
+    <footer>
+      <%- include('../../partials/footer'); %>
+    </footer>
+    <script> 
+        function iniciar(){
+            let url = "/getUsr/"+"<%=id%>";
+            const reqListener = response => {
+            let a = JSON.parse(response.currentTarget.response);
+            let usu = a[0];
+            //declatação das variaveis
+            let t1 = document.getElementById("titulo");
+            let id = document.getElementById("id");
+            let nome = document.getElementById("nome");
+            let email = document.getElementById("email");
+            let classe = document.getElementById("classe");
+            let foto = document.getElementById("foto");
+            let senha = document.getElementById("senha");
+            // definindo valores no HTML
+            t1.innerHTML = "Editar de Usuário: " + usu.u_nome + " ID: "+ usu.u_id;
+            id.value = usu.u_id;
+            nome.value = usu.u_nome;
+            email.value = usu.u_email;
+            classe.value = usu.u_class;
+            classe.value = usu.u_class;
+            foto.value = usu.u_foto;
+            senha.value = usu.u_senha;
+            console.log(usu);
+            };
+            getJSON(url,reqListener);
+        };   
+    </script>
+    <% if(typeof alert != "undefined"){ %>
+        <script>
+            Swal.fire({
+                title: '<%=aTitle%>',
+                text: '<%=aText%>',
+                icon: '<%=aIcon%>',
+                showConfirmButton: '<%=scb%>',
+                timer: '<%=timer%>'
+            }).then(()=>{
+                window.location='<%=rota%>'
+            })
+        </script>
+    <% } %> 
+   </body>
+</html>

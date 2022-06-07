@@ -1,43 +1,168 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
-        <title>Index</title>
-        <%- include('../partials/head') %>
-  </head>  
-  <body>
-    <header>
-      <%- include('../partials/header') %>
-    </header>
-    <div class="botoes d-flex justify-content-center">
-        <div class="col-sm-12 col-md-4 col-lg-5 col-xl-5 wepa">
-            <a href="/entrada" class="btn btn-lg btn-outline-success btn-inicio">
-            <i class="bi bi-arrow-down-circle-fill" style="font-size: 1.5rem; "></i> Entrada
-          </a>
-        </div>
-        <div class="col-sm-12 col-md-4 col-lg-5 col-xl-5 wepa">
-          <a href="/saida" class="btn btn-lg btn-outline-danger btn-inicio">
-            <i class="bi bi-arrow-up-circle-fill" style="font-size: 1.5rem; "></i> Saída
-          </a>
-        
+
+<head>
+  <title>Acquamel</title>
+  <%- include('../partials/head') %>
+</head>
+
+<body onload="iniciar()">
+  <header>
+    <%- include('../partials/header'),{nomeUsr:nomeUsr}; %>
+  </header>
+
+  <!-- ----------------------------------DADOS INICIAIS -->
+  <div class="total-geral">
+    <!-- Mês -->
+    <div id="mes" class="mes-index"></div>
+    <div class="dados d-flex col-lg-6 col-sm-12">
+      <!-- entrada -->
+      <div class="mini-box bx-entrada col-4">
+        <i class="bi bi-box-arrow-in-down text-verde" style="font-size: 2.0rem;"></i>
+        <p class="txt-bx text-white"> Entrada:</p>
+        <h6 class="text-white" id="ENT" title="Entrada"></h6>
       </div>
-        <div class="col-sm-12 col-md-3 col-lg-5 col-xl-5 wepa">
-          <a href="/funcionarios" class="btn btn-lg btn-outline-primary btn-inicio">
-            <i class="bi bi-building" style="font-size: 1.5rem;"></i>Funcionários            
-          </a>
-          </div>
-        <div class="col-sm-12 col-md-3 col-lg-5 col-xl-5 wepa">
-          <a href="/caminhoes" class="btn btn-lg btn-outline-warning btn-inicio">
-            <i class="bi bi-truck" style="font-size: 1.5rem; "></i> Caminhões
-          </a>
+      <!-- saidas -->
+      <div class="mini-box bx-saida col-4">
+        <i class="bi bi-box-arrow-up text-vermelho" style="font-size: 2.0rem; "></i>
+        <p class="txt-bx text-white"> Saída:</p>
+        <h6 class="text-white" id="SAIDA" title="Saída"></h6>
       </div>
-      <div class="col-sm-12 col-md-3 col-lg-5 col-xl-5 wepa">
-        <a href="/clientes" class="btn btn-lg btn-outline-info btn-inicio">
-          <i class="bi bi-people-fill" style="font-size: 1.5rem; "></i>  Clientes
-        </a>
+      <!-- Bruto -->
+      <div class="mini-box bx-saldo col-4">
+        <i class="bi bi-piggy-bank text-azul" style="font-size: 2.0rem; "></i>
+        <p class="txt-bx text-white"> Valor Bruto:</p>
+        <h6 id="BRUTO" title="Bruto"></h6>
+      </div>
+      <div class="mini-box  bx-percent col-2">
+        <i class="bi bi-percent text-roxo" style="font-size: 2.0rem; "></i>
+        <p class="txt-bx text-white"> Percentual:</p>
+        <h6 id="PERCENTUAL" title="Percentual do Ano"></h6>
+      </div>
+      <!-- saidas -->
+      <div class="mini-box bx-viagens col-2 ">
+        <i class="bi bi-truck text-amarelo" style="font-size: 2.0rem; "></i>
+        <p class="txt-bx text-white"> Viagens:</p>
+        <h6 class="text-white" id="VIAGENS" title="Viagens"></h6>
+      </div>
+      <!-- Bruto -->
+      <div class="mini-box bx-f-sai col-2 ">
+        <i class="bi bi-clock-history text-vermelho" style="font-size: 2.0rem; "></i>
+        <p class="txt-bx text-white"> Saídas futura:</p>
+        <h6 class="text-white" id="FS" title="Saída Futura"></h6>
+      </div>
+      <div class="mini-box bx-f-ent col-2 ">
+        <i class="bi bi-cash-coin text-verde" style="font-size: 2.0rem; "></i>
+        <p class="txt-bx text-white">Entradas Futura:</p>
+        <h6 class="text-white" id="FE" title="Entrada Futura"></h6>
+      </div>
     </div>
+  </div>
+  <!-- ---------------------------------------BOTÃO FLUTUANTE -->
+  <div id="acao1" class="acao" onclick="acaoBtn();">
+    <button>+</button>
+    <ul>
+      <li>
+        <a href="/entradas" class="btn btn-outline-success btn-action" onclick="getCalenData()">
+          <i class="bi bi-arrow-down-circle-fill" style="font-size: 1.5rem; "></i> Entrada
+        </a>
+      </li>
+      <li>
+        <a href="/saidas" class="btn btn-outline-danger btn-action">
+          <i class="bi bi-arrow-up-circle-fill" style="font-size: 1.5rem; "></i> Saída
+        </a>
+      </li>
+      <li>
+        <a href="/funcionarios" class="btn btn-lg btn-outline-primary btn-action">
+          <i class="bi bi-building" style="font-size: 1.5rem;"></i>Funcionários
+        </a>
+      </li>
+      <li>
+        <a href="/caminhoes" class="btn btn-lg btn-outline-warning btn-action">
+          <i class="bi bi-truck" style="font-size: 1.5rem; "></i> Caminhões
+        </a>
+      </li>
+      <li>
+        <a href="/clientes" class="btn btn-lg btn-outline-info btn-action">
+          <i class="bi bi-people-fill" style="font-size: 1.5rem; "></i> Clientes
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!-- -----------------------------GRAFICOS -->
+  <div class="row  graficos">
+    <div class="contGraf col-lg-5 col-md-5 col-sm-12">
+
+      <div class="draggable bxGraf">
+        <h5 class="graf-titulo">Balanço Mensal</h5>
+        <div class="rowGraf" id="rowGraf">
+        </div>  
+        <canvas id="graf1"></canvas>
+      </div>
+      <div class="draggable bxGraf">
+        <h5 class="graf-titulo">Viagens</h5>
+        <div class="rowGraf" id="rowGraf"></div>  
+        <canvas id="graf3"></canvas>
+      </div>
+
+      <div class="draggable bxGraf">
+        <h5 class="graf-titulo">Balanço Anual</h5>
+        <div class="rowGraf" id="rowGraf"></div>  
+        <canvas id="graf5"></canvas>
+      </div>
+    </div>
+
+    <div class="contGraf col-lg-5 col-md-5 col-sm-12">
+
+      <div class="draggable bxGraf">
+        <h5 class="graf-titulo">Gastos</h5>
+        <div class="rowGraf" id="rowGraf"></div>  
+        <canvas id="graf2"></canvas>
+      </div>
+      <div class="draggable bxGraf">
+        <h5 class="graf-titulo">Clientes do Mês</h5>
+        <div class="rowGraf" id="rowGraf"></div>  
+        <canvas id="graf4"></canvas>
+      </div>
+      <div class="draggable bxGraf">
+        <h5 class="graf-titulo">Clientes Anual</h5>
+        <div class="rowGraf" id="rowGraf"></div>  
+        <canvas id="graf6"></canvas>
+      </div>
+
     </div>
     <footer>
+      <script>
+        function acaoBtn() {
+          let action = document.getElementById("acao1");
+          let bod = document.body;
+          let lis = function () {/* 
+          bod.addEventListener('click', function () { */
+            action.classList.toggle('active');
+            bod.removeEventListener('click', lis);
+
+          };
+          if (action.classList.contains('active')) {
+            action.classList.remove('active');
+            bod.removeEventListener('click', lis)
+          } else {
+            bod.addEventListener('click', lis);
+          }
+        };
+        function getCalenData() {
+          let cale = document.getElementById("cale");
+          return cale.value;
+        }
+        function iniciar() {
+          meuMes();
+          setInterval(getCalenData())
+          balanco();
+          graficos();
+          drag()
+        }
+      </script>
       <%- include('../partials/footer') %>
     </footer>
-  </body>
+</body>
+
 </html>

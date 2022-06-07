@@ -2971,7 +2971,7 @@ textarea.form-control-lg {
   z-index: 3;
 }
 
-.btn {
+button, .btn {
   display: inline-block;
   font-weight: 400;
   line-height: 1.5;

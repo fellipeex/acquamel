@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+  <title>Saída</title>
+  <%- include('../../partials/head'); %>
+</head>
+
+<body>
+  <header>
+    <%- include('../../partials/header'),{nomeUsr:nomeUsr}; %>
+  </header>
+  <a href="/novoCaminhao" class="btn-flutuante btn-outline-warning">
+    <i class="bi bi-plus-circle-fill" style="font-size:30px;"></i>
+  </a>
+  <div class="container mt-4">
+
+    <table id="CAM-TB" class="table table-bordered table-striped text-center md-4">
+      <thead>
+        <tr class="bg-warning text-white">
+          <th scope="col">ID</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Placa</th>
+          <th scope="col">Tamanho</th>
+          <th scope="col">Ano</th>
+          <th scope="col">RENAVAM</th>
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <footer>
+    <%- include('../../partials/footer'); %>
+  </footer>
+  <script>
+    $(document).ready(function () {
+      $('#CAM-TB').DataTable({
+        ajax: {
+          url: "/getCam",
+          dataSrc: ""
+        },
+        columns: [
+          {
+            data: null,
+            "render": function (data) {
+              return '<a href="/infosCaminhao/' + data.cam_id +
+                '" class="btn btn-sm btn-outline-secondary" title="Ver mais">' +
+                '<i class="bi bi-eye-fill"></i></a><br>' + data.cam_id;
+            }
+          },
+          { data: "cam_nome" },
+          { data: "cam_placa" },
+          { data: "cam_tamanho" },
+          { data: "cam_ano" },
+          { data: "cam_renavam" },
+          {
+            data: null,
+            "render": function (data) {
+              return '<a href="/editarCaminhao/' + data.cam_id + '" class="btn btn-outline-secondary" title="Editar">' +
+                '<i class="bi bi-pencil-fill"></i></a><a class="btn btn-outline-danger"' +
+                ' onclick="confirmar(' + data.cam_id + ' )" title="Apagar"><i class="bi bi-trash-fill"></i></a>'
+            }
+          }
+        ],
+        pageLenght: 5,
+        lenghtMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']]
+      });
+
+    });
+    function confirmar(id) {
+      Swal.fire({
+        title: 'Tem certeza que deseja apagar Caminhão?',
+        text: "Você não poderá reverter isso.",
+        icon: 'warning',
+        showDenyButton: true,
+        confirmButtonColor: '#ff0000',
+        denyButtonColor: '#8d8d8d',
+        denyButtonText: 'Cancelar',
+        confirmButtonText: 'Apagar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location = '/camDel/' + id;
+        }
+      })
+    }    
+  </script>
+  <% if(typeof alert !="undefined" ){ %>
+    <script>
+      Swal.fire({
+        title: '<%=aTitle%>',
+        text: '<%=aText%>',
+        icon: '<%=aIcon%>',
+        showConfirmButton: '<%=scb%>',
+        timer: '<%=timer%>'
+      }).then(() => {
+        window.location = '<%=rota%>'
+      })
+    </script>
+    <% } %>
+</body>
+
+</html>

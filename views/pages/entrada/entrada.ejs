@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+  <title>Entrada</title>
+  <%- include('../../partials/head'); %>
+</head>
+
+<body>
+  <header>
+    <%- include('../../partials/header'),{nomeUsr:nomeUsr}; %>
+  </header>
+  <a href="/novaEntrada" class="btn-outline-success btn-flutuante">
+    <i class="bi bi-plus-circle-fill" style="font-size:30px;"></i>
+  </a>
+  <div class="container con d-flex mt-4 ">
+    <div class="mes-verde" id="mes"><h6 class="text-white">Entradas</h6> </div>
+  </div>
+    <table id="entrada" class="table table-bordered table-striped text-center md-4">
+      <thead>
+        <tr class="bg-verde text-white">
+          <th scope="col">ID</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Cliente</th>
+          <th scope="col">Motorista</th>
+          <th scope="col">Valor TOTAL</th>
+          <th scope="col">Data</th>
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+  
+  <footer>
+    <%- include('../../partials/footer'); %>
+  </footer>
+  <script>
+    meuMes();
+    let varURL = "/getEnt";
+    
+    $(document).ready(function () {
+      $('#entrada').DataTable({
+        ajax: {
+          url: varURL,
+          dataSrc: ""
+        },
+        columns: [
+          {
+            data: null,
+            "render": function (data) {
+              return '<a href="/infosEntrada/' + data.ped_id +
+                '" class="btn btn-sm btn-outline-secondary" title="Ver mais"><i class="bi bi-eye-fill"></i></a><br>' + data.ped_id;
+            }
+          },
+          { data: "ped_nome" },
+          { data: "cli_id" },
+          { data: "motorista_id" },
+          { data: "total" },
+          { data: "data" },
+          {
+            data: null,
+            "render": function (data) {
+              return '<a href="/editarEntrada/' + data.ped_id +
+                '" class="btn btn-outline-secondary" title="Editar"><i class="bi bi-pencil-fill"></i></a>' +
+                '<a class="btn btn-outline-danger" onclick="confirmar(' + data.ped_id + ' )" title="Apagar"><i class="bi bi-trash-fill"></i></a>'
+            }
+          }
+        ],
+        pageLenght: 5,
+        lenghtMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']]
+      });
+
+    });/* 
+    $(document).ready(function () {
+      $('#entrada').DataTable();
+    }); */
+    function confirmar(id) {
+      Swal.fire({
+        title: 'Tem certeza que deseja apagar Entrada?',
+        text: "Você não poderá reverter isso.",
+        icon: 'warning',
+        showDenyButton: true,
+        confirmButtonColor: '#ff0000',
+        denyButtonColor: '#8d8d8d',
+        denyButtonText: 'Cancelar',
+        confirmButtonText: 'Apagar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location = '/delEnt/' + id;
+        }
+      })
+    }
+  </script>
+  <% if(typeof alert !="undefined" ){ %>
+    <script>
+      Swal.fire({
+        title: '<%=aTitle%>',
+        text: '<%=aText%>',
+        icon: '<%=aIcon%>',
+        showConfirmButton: '<%=scb%>',
+        timer: '<%=timer%>'
+      }).then(() => {
+        window.location = '<%=rota%>'
+      })
+    </script>
+    <% } %>
+</body>
+
+</html>

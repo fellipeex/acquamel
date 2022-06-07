@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+  <title>Funcionarios</title>
+  <%- include('../../partials/head'); %>
+</head>
+
+<body>
+  <header>
+    <%- include('../../partials/header'),{nomeUsr:nomeUsr}; %>
+  </header>
+  <a href="/novoFuncionario" class="btn-flutuante btn-outline-primary">
+    <i class="bi bi-plus-circle-fill" style="font-size:30px;"></i>
+  </a>
+  <div class="container mt-4">
+    <table id="FUNC-TB" class="table table-bordered table-striped text-center md-4">
+      <thead>
+        <tr class="bg-primary text-white">
+          <th scope="col">ID</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Cargo</th>
+          <th scope="col">Status</th>
+          <th scope="col">Salário</th>
+          <th scope="col">Funções</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <footer>
+    <%- include('../../partials/footer'); %>
+  </footer>
+  <script>
+    $(document).ready(function () {
+      $('#FUNC-TB').DataTable({
+        ajax: {
+          url: "/getFunc",
+          dataSrc: ""
+        },
+        columns: [
+          {
+            data: null,
+            "render": function (data) {
+              return '<a href="/infosFuncionario/' + data.func_id +
+                '" class="btn btn-sm btn-outline-secondary" title="Ver mais">' +
+                '<i class="bi bi-eye-fill"></i></a><br>' + data.func_id;
+            }
+          },
+          { data: "func_nome" },
+          { data: "func_cargo" },
+          { data: "func_status" },
+          { data: "func_salario" },
+          {
+            data: null,
+            "render": function (data) {
+              return '<a href="/editarFuncionario/' + data.func_id +
+                '" class="btn btn-outline-secondary" title="Editar"><i class="bi bi-pencil-fill">' +
+                '</i></a><a class="btn btn-outline-danger" onclick="confirmar(' + data.func_id +
+                ' )" title="Apagar"><i class="bi bi-trash-fill"></i></a>'
+            }
+          }
+        ],
+        pageLenght: 5,
+        lenghtMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']]
+      });
+    });
+    function confirmar(id) {
+      Swal.fire({
+        title: 'Tem certeza que deseja apagar Funcionário?',
+        text: "Você não poderá reverter isso.",
+        icon: 'warning',
+        showDenyButton: true,
+        confirmButtonColor: '#ff0000',
+        denyButtonColor: '#8d8d8d',
+        denyButtonText: 'Cancelar',
+        confirmButtonText: 'Apagar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location = '/delFunc/' + id;
+        }
+      })
+    }
+  </script>
+  <% if(typeof alert !="undefined" ){ %>
+    <script>
+      Swal.fire({
+        title: '<%=aTitle%>',
+        text: '<%=aText%>',
+        icon: '<%=aIcon%>',
+        showConfirmButton: '<%=scb%>',
+        timer: '<%=timer%>'
+      }).then(() => {
+        window.location = '<%=rota%>'
+      })
+    </script>
+    <% } %>
+</body>
+
+</html>
