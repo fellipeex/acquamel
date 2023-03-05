@@ -85,19 +85,7 @@
       })
     }
   </script>
-  <% if(typeof alert !="undefined" ){ %>
-    <script>
-      Swal.fire({
-        title: '<%=aTitle%>',
-        text: '<%=aText%>',
-        icon: '<%=aIcon%>',
-        showConfirmButton: '<%=scb%>',
-        timer: '<%=timer%>'
-      }).then(() => {
-        window.location = '<%=rota%>'
-      })
-    </script>
-    <% } %>
+  
 </body>
 
 </html>

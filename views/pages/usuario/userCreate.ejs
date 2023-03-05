@@ -16,29 +16,29 @@
             </div>
             <div class="card-header">Novo Usuário</div>
             <div class="card-body">
-                <form action="/setUsr" method="POST">
+                <form action="/setUsr" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <label for="user" class="form-label">Usuário</label>
-                        <input type="text" class="form-control" id="user" name="user" tabindex="1">
+                        <label for="nome" class="form-label">Nome Usuário</label>
+                        <input type="text" class="form-control" id="nome" name="nome" tabindex="1" required>
                     </div>
                     <div class="mb-3">
-                        <label for="user" class="form-label">Email</label>
-                        <input type="text" class="form-control" id="email" name="email" tabindex="2">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="email" name="email" tabindex="2" required>
                     </div>
                     <div class="mb-3">
-                        <label for="user" class="form-label">Senha</label>
-                        <input type="text" class="form-control" id="senha" name="senha" tabindex="3">
+                        <label for="senha" class="form-label">Senha</label>
+                        <input type="text" class="form-control" id="senha" name="senha" tabindex="3" required>
                     </div> 
                     <div class="mb-3">
-                        <label for="user" class="form-label">Classe</label>
-                        <select id="classe" name="classe" class="form-select"  tabindex="4">
+                        <label for="classe" class="form-label">Classe</label>
+                        <select id="classe" name="classe" class="form-select"  tabindex="4" required>
                             <option value="admin">Admin</option>
                             <option value="comum">Comum</option>
                         </select>    
                     </div> 
                     <div class="mb-3">
-                        <label for="user" class="form-label">Foto</label>
-                        <input type="text" class="form-control" id="foto" name="foto" tabindex="5">
+                        <label for="foto" class="form-label">Foto</label>
+                        <input  type="file" class="form-control" id="foto" name="foto" tabindex="5" required>
                     </div>
                     <button type="submit" class="btn btn-primary" tabindex="6" title="Salvar">
                         <i class="bi bi-save"></i> 
@@ -53,18 +53,6 @@
     <footer>
       <%- include('../../partials/footer'); %>
     </footer>
-<% if(typeof alert != "undefined"){ %>
-    <script>
-        Swal.fire({
-            title: '<%=aTitle%>',
-            text: '<%=aText%>',
-            icon: '<%=aIcon%>',
-            showConfirmButton: '<%=scb%>',
-            timer: '<%=timer%>'
-        }).then(()=>{
-            window.location='<%=rota%>'
-        })
-    </script>
-<% } %>  
+ 
   </body>
 </html>

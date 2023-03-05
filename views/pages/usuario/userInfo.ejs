@@ -18,31 +18,32 @@
                 <div class="dados mt-0 px-3">
                     <div class="linha">
                         <strong>ID:</strong>
-                        <p class="pe" id="id"></p>
+                        <p class="pe" id="id"><%= id %></p>
                     </div>
                     <div class="linha">
                         <strong>Nome: </strong>
-                        <p class="pe" id="nome"></p>
+                        <p class="pe" id="nome"><%= usu.Host%></p>
                     </div>
                     <div class="linha">
                         <strong>E-mail: </strong>
-                        <p class="pe" id="email"></p>
+                        <p class="pe" id="email"><%= usu.u_email%></p>
                     </div>
                     <div class="linha">
                         <strong>classe: </strong>
-                        <p class="pe" id="classe"></p>
+                        <p class="pe" id="classe"><%= usu.u_classe%></p>
                     </div>
+                    <br><br>
                     <div class="linha">
                         <strong>Ultimo Login: </strong>
-                        <p class="pe" id="last-login"></p>
+                        <p class="pe" id="last-login"><%= usu.u_last_login%></p>
                     </div>
-                    <!--<div class="linha">
+                    <div class="linha">
                         <strong>Foto: </strong>
-                        <p class="pe" id="foto"></p>
-                    </div>-->
+                        <img class="pe" id="foto" src="<%= usu.u_foto%>">
+                    </div>
                     <div class="linha">
                         <strong>Senha: </strong>
-                        <p class="pe" id="senha"></p>
+                        <p class="pe" id="senha"><%= usu.u_senha%></p>
                     </div>
                     <a href="/editarUsuario/<%= id %>" class="btn btn-primary" tabindex="1" title="Editar">
                         <i class="bi bi-pencil-fill"></i> 
@@ -58,7 +59,7 @@
         </footer>
         <script>
             
-            function iniciar(){
+            /* function iniciar(){
                 let url = "/getUsr/"+"<%=id%>";
                 const reqUser = response => {
                 let a = JSON.parse(response.currentTarget.response);
@@ -79,11 +80,12 @@
                 email.innerHTML =  usu.u_email;
                 classe.innerHTML =  usu.u_class;
                 login.innerHTML =  usu.u_last_login;
-                //foto.innerHTML =  usu.u_foto;
+                console.log(usu.u_foto)
+                foto.src =  usu.u_foto';
                 senha.innerHTML =  usu.u_senha;                
                 };
                 getJSON(url,reqUser);
-            };   
+            };   */ 
         </script>
     </body>
 </html>

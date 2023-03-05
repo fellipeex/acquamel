@@ -1,9 +1,16 @@
-//                                                 1- importações 
+//                                               1- importações 
 const express = require('express');
+const bodyParser = require('body-parser');
 const session = require('express-session');
 const app = express();
 const dotenv = require('dotenv');
-dotenv.config({path:'./env/.env'});
+
+dotenv.config({path:'./src/Config/env/.env'});
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
@@ -27,7 +34,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 //                                      5- chamando a rota primaria a partir das rotas
-app.use('/', require('./router'));
+app.use('/', require('./src/Config/routerCtrl'));
 
 //                                         6- host que o sistema irá rodar
 app.listen(5050, ()=>{
