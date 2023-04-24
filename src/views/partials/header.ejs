@@ -1,0 +1,6 @@
+
+<% if(Usr.classe =="admin") {%>
+    <%- include('./headerAdmin', {nomeUsr:nomeUsr}) -%>
+<% }else if (Usr.classe =="comum"){%>
+    <%- include('./headerComum',{nomeUsr:nomeUsr}) -%>
+<% } %>

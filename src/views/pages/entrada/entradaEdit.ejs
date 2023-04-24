@@ -1,0 +1,186 @@
+<html lang="pt-br">
+
+<head>
+    <title>Editar Entrada</title>
+    <%- include('../../partials/head'); %>
+</head>
+
+<body onload="iniciar()">
+    <header>
+    </header>
+    <div class="container">
+        <div class="card border-secondary">
+            <div class="bg-deg-verde mikk card-header rounded-top text-white px-3 ">
+                <div class=" col-1">
+                    <a href="/infosEntrada/<%= ent.id %>" class="btn-top btn btn-light" tabindex="1"
+                        title="Voltar">
+                        <i class="bi bi-arrow-return-left"style="font-size: 1.5rem;"></i>
+                    </a>
+                </div>
+                <div class="t-titulo col-11 ">
+                    <h2 id="titulo" class="text-light sombra-dark">
+                        <i class="bi bi-cash-coin"> Editar Entrada <%= ent.id %></i>
+                    </h2>
+                </div>
+            </div>
+            <div class="card-body">
+                <form action="/api/updateEnt" method="POST" id="formEnt">
+                    <input type="text" name="idE" id="idE" value="<%=ent.id%>" hidden>
+                    <div class="mb-3">
+                        <strong for="Pedido" class="form-label">Nome Entrada:</strong>
+                        <input type="text" class="form-control" id="nomeE" name="nomeE" tabindex="2"
+                            value="<%=ent.nome%>" required>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-md-5 col-sm-5">
+                            <strong for="Pedido" class="form-label">Cliente:</strong>
+                            <select class="form-select" id="cliE" name="cliE" tabindex="3" required>
+                                <% cli.forEach(function(cli) { %>
+                                    <% if (cli.id===ent.cliente){ %>
+                                        <option value="<%- cli.id %>" selected>→ <%- cli.nome %> ←</option>
+                                        <% }else{ %>
+                                            <option value="<%- cli.id %>"><%- cli.nome %></option>
+                                            <% }}); %>
+                            </select>
+                        </div>
+                        <div class="mb-3 col-md-5 col-sm-5">
+                            <strong for="Pedido" class="form-label">Vendedor:</strong>
+                            <select id="vendE" name="vendE" class="form-select" tabindex="4" required>
+                                <% vend.forEach(function(vend) { %>
+                                    <% if (vend.id===ent.vendedor){ %>
+                                        <option value="<%- vend.id %>" selected>→ <%- vend.nome %> ←</option>
+                                        <% }else{ %>
+                                            <option value="<%- vend.id %>"><%- vend.nome %></option>
+                                            <% }}); %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-md-5 col-sm-7">
+                            <strong for="Pedido" class="form-label">Motorista:</strong>
+                            <select id="motoE" name="motoE" class="form-select" tabindex="5" required>
+                                <% moto.forEach(function(moto) { %>
+                                    <% if (moto.id===ent.motorista){ %>
+                                        <option value="<%- moto.id %>" selected>→ <%- moto.nome %> ←</option>
+                                        <% }else{ %>
+                                            <option value="<%- moto.id %>"><%- moto.nome %></option>
+                                            <% }}); %>
+                            </select>
+                        </div>
+                        <div class="mb-5 col-md-3 col-sm-4">
+                            <strong for="Pedido" class="form-label">Caminhão:</strong>
+                            <select class="form-select" id="camE" name="camE" tabindex="6" required>
+                                <% cam.forEach(function(cam) { %>
+                                    <% if (cam.id===ent.caminhao){ %>
+                                        <option value="<%- cam.id %>" selected>→ <%- cam.placa %> ←</option>
+                                        <% }else{ %>
+                                            <option value="<%- cam.id %>"> <%- cam.placa %></option>
+                                            <% }}); %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-md-3 col-sm-4 col-5">
+                            <strong for="Pedido" class="form-label">Valor:</strong>
+                            <input type="number" class="form-control" id="valorE" name="valorE" tabindex="7"
+                                min="0" step=".01" value="<%=ent.valor%>" required>
+                        </div>
+                        <div class="mb-3 col-md-3 col-sm-4 col-6">
+                            <strong for="Pedido" class="form-label">Quantidade:</strong>
+                            <input type="number" class="form-control" id="qtdE" name="qtdE" tabindex="8"
+                                min="1" value="<%=ent.qtd%>" required>
+                        </div>
+                        <div class="mb-3 col-md-3 col-sm-6">
+                            <strong for="Pedido" class="form-label">Total:</strong>
+                            <input type="text" class="form-control" id="totalE" name="totalE" 
+                                value="<%=ent.total%>" readonly>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <strong for="Pedido" class="form-label">Data Entrada:</strong>
+                        <input type="datetime-local" class="form-control" id="dataE" name="dataE" tabindex="9"
+                            value="<%=ent.getDataUs()%>" required>
+                    </div>
+                    <div class="mb-3 observacoes">
+                        <strong for="Pedido" class="form-label">Observações:</strong>
+                        <textarea id="obs" name="obs" tabindex="10" rows="5"><%=ent.obs%></textarea>
+                    </div>
+                    <div class="mb-3 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-success" tabindex="11" title="Salvar">
+                            <i class="bi bi-device-hdd-fill" style="font-size: 3.0rem;"></i>
+                        </button>
+                    </div>
+                </form>
+            </div><!-- card-body -->
+        </div>
+    </div>
+    <%- include('../../partials/footerCreate'); %>
+    <footer>
+        <%- include('../../partials/footer'); %>
+            <script>
+                function iniciar() {
+                    document.getElementById("qtdE").addEventListener("input", calculo);
+                    document.getElementById("valorE").addEventListener("input", calculo);
+                }
+                function calculo() {
+                    let qtd = document.getElementById("qtdE").value;
+                    let valor = document.getElementById("valorE").value;
+                    let t = qtd * valor;
+                    document.getElementById("totalE").value = t.toFixed(2)
+                }
+
+                /* function iniciar(){
+                            let url = "/getEnt/"+'';
+                            const loadData = () => {
+                                const req = new XMLHttpRequest();
+                                req.onload = reqListener;
+                                req.open("get", url, true);
+                                req.send();
+                            };
+                            const reqListener = response => {
+                            let a = JSON.parse(response.currentTarget.response);
+                            let ent = a[0];
+                            //declatação das variaveis
+                            let t1 = document.getElementById("titulo");
+                            let id = document.getElementById("id");
+                            let nome = document.getElementById("nome");
+                            let cam = document.getElementById("cam");
+                            let cliente = document.getElementById("cliEnt");
+                            let vend = document.getElementById("vendEnt");
+                            let moto = document.getElementById("motoEnt");
+                            let valor = document.getElementById("valorEnt");
+                            let qtd = document.getElementById("qtdEnt");
+                            let data = document.getElementById("dataEnt");
+                            let obs = document.getElementById("obsEnt");
+                            // definindo valores no HTML
+                            t1.innerHTML = "Editar Entrada ID: "+ ent.ped_id;
+                            id.value = ent.ped_id;
+                            nome.value = ent.ped_nome;
+                            cam.value = ent.cam_id;
+                            cliente.value = ent.cli_id;
+                            vend.value = ent.vendedor_id;
+                            moto.value = ent.motorista_id;
+                            valor.value = ent.ped_valor;
+                            qtd.value = ent.ped_qtd; 
+                            total.value = ent.total;
+                            data.value = ent.data;
+                            obs.value = ent.ped_obs;
+                            console.log(ent);
+                            };
+                            loadData();
+                            myTotal();
+                        };
+                        function calculo() { setInterval(myTotal, 500)}
+                        function myTotal(){
+                            let qtd = document.getElementById("qtdEnt").value;
+                            let  valor = document.getElementById("valorEnt").value;                
+                            let t = qtd*valor;
+                            document.getElementById("totalEnt").value = t
+                            calculo();
+                        }   */
+            </script>
+
+    </footer>
+</body>
+
+</html>

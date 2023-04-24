@@ -1,0 +1,92 @@
+<html lang="pt-br">
+
+<head>
+    <title>Editar Usuário</title>
+    <%- include('../../partials/head'); %>
+</head>
+
+<body>
+    <header>
+    </header>
+    <div class="container">
+        <div class="card border-secondary">
+            <div class="bg-deg-primary card-header rounded-top text-white px-3">
+                <h2 id="titulo" class="text-light sombra-dark">
+                    <i class="bi bi-person-square">
+                    <%= usu.id %> </i>│<%= usu.nome%>
+                </h2>
+            </div>
+            <div class="dados col-12 mt-0 px-3">
+                <img class="pe row pic-user" id="foto" src="<%= usu.foto%>">
+                
+
+                    <div class="row col-12">
+                        <strong class="pe">Nome: </strong>
+                        <p class="pe" id="nome">
+                            <%= usu.nome%>
+                        </p>
+                    </div>
+                    <div class="row col-sm-6">
+                        <strong class="pe">classe: </strong>
+                        <p class="pe" id="classe">
+                            <%= usu.classe%>
+                        </p>
+                    </div>
+                    <div class="row col-sm-6">
+                        <strong class="pe">E-mail: </strong>
+                        <p class="pe" id="email">
+                            <%= usu.email%>
+                        </p>
+                    </div>
+                    <div class="row col-12">
+                        <strong class="pe">Ultimo Login: </strong>
+                        <p class="pe" id="last-login">
+                            <%= usu.lastLogin %>
+                        </p>
+                    </div>
+
+
+                </div>
+                <a href="/editarUsuario/<%= usu.id %>" class="btn btn-primary" tabindex="1" title="Editar">
+                    Editar Usuário
+                    <i class="bi bi-pencil-fill"></i>
+                </a>
+            
+        </div>
+    </div>
+    <footer>
+        <%- include('../../partials/footer'); %>
+    </footer>
+    <script>
+
+        /* function iniciar(){
+            let url = "/getUsr/"+"<%=id%>";
+            const reqUser = response => {
+            let a = JSON.parse(response.currentTarget.response);
+            let usu = a[0];
+            //declatação das variaveis
+            let t1 = document.getElementById("titulo");
+            let uid = document.getElementById("id");
+            let nome = document.getElementById("nome");
+            let email = document.getElementById("email");
+            let classe = document.getElementById("classe");
+            let login = document.getElementById("last-login");
+            let foto = document.getElementById("foto");
+            let senha = document.getElementById("senha");
+            // definindo valores no HTML
+            t1.innerHTML = "Visualização de Usuário: " + usu.u_nome;
+            uid.innerHTML =  usu.u_id;
+            nome.innerHTML =  usu.u_nome;
+            email.innerHTML =  usu.u_email;
+            classe.innerHTML =  usu.u_class;
+            login.innerHTML =  usu.u_last_login;
+            console.log(usu.u_foto)
+            foto.src =  usu.u_foto';
+            senha.innerHTML =  usu.u_senha;                
+            };
+            getJSON(url,reqUser);
+        };   */
+    </script>
+</body>
+
+</html>

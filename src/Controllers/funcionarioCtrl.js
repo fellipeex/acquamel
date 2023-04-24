@@ -1,186 +1,136 @@
-const conn = require('../Config/database/db');
-
+import {FuncionarioDAO, Funcionario} from '../Models/funcionario/FuncionarioDAO.js'
+import * as al from './alertas/alertasFuncionario.js';
+import { NOAUTH } from './alertas/alertas.js';
 //----------------------------------------------------------FUNCIONARIOS-----------------------
-
-//--------------GETS JSON ALL CAMIHÕES 
-
-exports.getAll = async (req, res)=> {
-  if(req.session.loggedin){
-    conn.query('SELECT * FROM tb_funcionario;', (error, results) => {
-      if (error) {
-        throw error;
-      } else {
-        data = JSON.stringify(results);
-         res.send(data);
-      }
-    })
-  }else{
-    res.redirect('/');
-  }
-}
-//-----------GET JSON FUNCIONARIOS EXPECÍFICO
-exports.get = (req, res) => {
-  if(req.session.loggedin ){  
-    const id = req.params.id;
-    conn.query('SELECT * FROM tb_funcionario WHERE func_id=?', [id], (error, results) => {
-      if (error) {
-        throw error;
-      } else {
-        data = JSON.stringify(results);
-        res.send(data);
-      }
-      
-    })
-  }else{
-    res.redirect('/');
-  }
-}
-
 //----------------------------------------------------------CRUD
-
 //----------------------------SAVE
-exports.set = async (req,res)=>{
-  if(req.session.loggedin){
-    const nomeFunc = req.body.nomeFunc;
-    const ctpsFunc = req.body.ctpsFunc;
-    const rgFunc = req.body.rgFunc;
-    const cpfFunc = req.body.cpfFunc;
-    const endFunc = req.body.endFunc;
-    const bairroFunc = req.body.bairroFunc;
-    const cepFunc = req.body.cepFunc;
-    const statusFunc = req.body.statusFunc;
-    const salarioFunc = req.body.salarioFunc;
-    const cargoFunc = req.body.cargoFunc;
-    const entFunc = req.body.entFunc;
-    const saidaFunc = req.body.saidaFunc;
-    conn.query('INSERT INTO tb_funcionario SET ?', {func_nome:nomeFunc , func_ctps:ctpsFunc, func_rg:rgFunc, func_cpf:cpfFunc, func_endereco:endFunc,
-         func_bairro:bairroFunc, func_cep:cepFunc, func_status:statusFunc, func_salario:salarioFunc, func_cargo:cargoFunc, func_entrada:entFunc, func_saida:saidaFunc}, (error, results) =>{
-        if(error){
-          console.log(error);
-          res.render('pages/funcionario/funcCreate.ejs',{
-              nomeUsr: req.session.name,
-              classeUsr: req.session.classe,
-              alert:true,
-              aTitle:'ERRO - Funcionário não criado',
-              aText:'Não foi possível concluir criação de Funcionário com êxito!',
-              aIcon:'error',
-              scb: false,
-              timer: 2000,
-              rota:'/funcionarios'
-          });
-      }else { 
-          res.render('pages/funcionario/funcCreate.ejs',{
-              nomeUsr: req.session.name,
-              classeUsr: req.session.classe,
-              alert:true,
-              aTitle:'Funcionário Criado',
-              aText:'Sucesso na criação de Funcionário!',
-              aIcon:'success',
-              scb: false,
-              timer: 2000,
-              rota:'/funcionarios'
-          });
-      }
-    })
-  }else{
-    res.redirect('/');
+export const set = async (req, res) => {
+  let usrSess= {
+    nomeUsr: req.session.nomeUsr,
+    Usr: req.session.usuario}
+  if (req.session.loggedin) {
+    const nome = req.body.nome;
+    const ctps = req.body.ctps;
+    const rg = req.body.rg;
+    const cpf = req.body.cpf;
+    const endereco = req.body.endereco;
+    const bairro = req.body.bairro;
+    const cep = req.body.cep;
+    const status = req.body.status;
+    const salario = req.body.salario;
+    const cargo = req.body.cargo;
+    const dataEnt = req.body.dataEnt;
+    const dataSai = req.body.dataSai;
+    const func = new Funcionario(null, nome, ctps, rg, cpf, endereco, bairro, cep, status, salario, cargo, dataEnt, dataSai)
+    try{
+      const funcDAO = new FuncionarioDAO()
+      await funcDAO.save(func)
+      res.render('pages/funcionario/funcCreate.ejs',{...usrSess, ...al.SetSuccess});
+    }catch(err) {
+      console.error(err);
+      res.render('pages/funcionario/funcCreate.ejs',{...usrSess, ...al.SetError});
+    }
+  } else { 
+    res.render('pages/not-found.ejs',{...usrSess, ...NOAUTH});
   }
 }
 //-----------------------UPDATE
-
-exports.update = async (req,res)=>{
-  if(req.session.loggedin){
+export const update = async (req, res) => {
+  let usrSess= {
+    nomeUsr: req.session.nomeUsr,
+    Usr: req.session.usuario}
+  if (req.session.loggedin) {
     const id = req.body.id;
-    const nomeFunc = req.body.nomeFunc;
-    const ctpsFunc = req.body.ctpsFunc;
-    const rgFunc = req.body.rgFunc;
-    const cpfFunc = req.body.cpfFunc;
-    const endFunc = req.body.endFunc;
-    const bairroFunc = req.body.bairroFunc;
-    const cepFunc = req.body.cepFunc;
-    const statusFunc = req.body.statusFunc;
-    const salarioFunc = req.body.salarioFunc;
-    const cargoFunc = req.body.cargoFunc;
-    const entFunc = req.body.entFunc;
-    const saidaFunc = req.body.saidaFunc;
-    conn.query('UPDATE tb_funcionario SET ? WHERE func_id = ?', [{func_nome:nomeFunc , func_ctps:ctpsFunc, func_rg:rgFunc, func_cpf:cpfFunc, func_endereco:endFunc,
-        func_bairro:bairroFunc, func_cep:cepFunc, func_status:statusFunc, func_salario:salarioFunc, func_cargo:cargoFunc, func_entrada:entFunc, func_saida:saidaFunc}, id], (error, results) =>{
-        if(error){
-        console.log(error);
-        res.render('pages/funcionario/funcEdit.ejs',{
-            id:id,
-            nomeUsr: req.session.name,
-            classeUsr: req.session.classe,
-            alert:true,
-            aTitle:'ERRO - Atualização não realizada',
-            aText:'Atualização de Funcionário não foi concluída com êxito!',
-            aIcon:'error',
-            scb: false,
-            timer: 2000,
-            rota:'/funcionarios'
-        });
-      }else { 
-        res.render('pages/funcionario/funcEdit.ejs',{
-            id:id,
-            nomeUsr: req.session.name,
-            classeUsr: req.session.classe,
-            alert:true,
-            aTitle:'Funcionário atualizado',
-            aText:'Sucesso na atualização de Funcionário!',
-            aIcon:'success',
-            scb: false,
-            timer: 2000,
-            rota:'/funcionarios'
-        });
-      }
-    })
-  } else{
-    res.redirect('/');
+    const nome = req.body.nome;
+    const dataNasc = req.body.dataNasc;
+    const ctps = req.body.ctps;
+    const rg = req.body.rg;
+    const cpf = req.body.cpf;
+    const endereco = req.body.endereco;
+    const bairro = req.body.bairro;
+    const cep = req.body.cep;
+    const status = req.body.status;
+    const salario = req.body.salario;
+    const cargo = req.body.cargo;
+    const dataEnt = req.body.dataEnt;
+    const dataSai = req.body.dataSai;
+    let dtSai
+    if(status == "Desligado"){
+      dtSai = dataSai
+    }if(status == "Ligado"){
+      dtSai = null
+    }
+    const func = new Funcionario(id, nome,dataNasc, ctps, rg, cpf, endereco, bairro, cep, status, salario, cargo, dataEnt, dtSai)
+    try{
+      const funcDAO = new FuncionarioDAO()
+      await funcDAO.save(func)
+      res.render('pages/funcionario/funcCreate.ejs',{...usrSess, ...al.UpdateSuccess(id)});
+    }catch(err) {
+      console.error(err);
+      res.render('pages/funcionario/funcCreate.ejs',{...usrSess, ...al.UpdateError(id)});
+    }
+  } else { 
+    res.render('pages/not-found.ejs',{...usrSess, ...NOAUTH});
   }
 }
 //----------------DELETE
-exports.delete =  (req, res) => {
-  if(req.session.loggedin && req.session.classe){
+export const del = async(req, res) => {
+  let usrSess= {
+    nomeUsr: req.session.nomeUsr,
+    Usr: req.session.usuario
+  }
+  if (req.session.loggedin && req.session.usuario.classe =="admin") {
     const id = req.params.id;
-    conn.query('DELETE FROM tb_funcionario WHERE func_id=?', [id], (error, results) => {
-      if (error) {
-        console.log(error);
-          res.render('pages/funcionario/funcionario.ejs',{
-            nomeUsr: req.session.name,
-            classeUsr: req.session.classe,
-            alert:true,
-            aTitle:'ERRO - Funcionário não deletado',
-            aText:'Não foi possível apagar Funcionário com êxito!',
-            aIcon:'error',
-            scb: false,
-            timer: 2000,
-            rota:'/funcionarios'
-          });
-      } else { 
-        res.render('pages/funcionario/funcionario.ejs',{
-          nomeUsr: req.session.name,
-          classeUsr: req.session.classe,
-          alert:true,
-          aTitle:'Usuário Deletado',
-          aText:'Usuário deletado com sucesso!',
-          aIcon:'success',
-          scb: false,
-          timer: 2000,
-          rota:'/funcionarios'
-        });
+    try{
+      const funcDAO = new FuncionarioDAO()
+      await funcDAO.delete(id)
+      res.render('pages/funcionario/funcionario.ejs',{...usrSess, ...al.DelSuccess});
+    }catch(err) {
+      console.error(err);
+      res.render('pages/funcionario/funcionario.ejs',{...usrSess, ...al.DelError});
+    }
+  } else { 
+    res.render('pages/not-found.ejs',{...usrSess, ...NOAUTH});
+  }
+}
+//-----------------------------------------------------GETS JSON ALL Caminhões 
+export const getAll = async (req, res) => {
+  if (req.session.loggedin) {
+    const funcDAO = new FuncionarioDAO();
+    try {
+      const funcionarios = await funcDAO.getAll();
+      if (funcionarios.length > 0) {
+        res.json(funcionarios)
       }
-    })
-  }else { 
-    res.render('pages/funcionario/funcionario.ejs',{
-        nomeUsr: req.session.name,
-        classeUsr: req.session.classe,
-        alert:true,
-        aTitle:'Você não tem Permissão',
-        aText:'Usuário sem permissão para o solicitar acesso ao recurso. Contate um administrador',
-        aIcon:'error',
-        scb: false,
-        timer: 3000,
-        rota:'/funcionarios'
-    });
+    } catch (error) {
+        res.json({ message: `Problema de consulta no banco, ${error}` })
+    }
+  } else {
+    let usrSess = {
+      nomeUsr: req.session.nomeUsr,
+      Usr: req.session.usuario
+    }
+    res.render('pages/not-found.ejs', { ...usrSess, ...NOAUTH });
+  }
+}
+//--------------GETS JSON Caminhão BY ID
+export const getById = async (req, res) => {
+  if (req.session.loggedin) {
+    const id = req.params.id;
+    const camDAO = new FuncionarioDAO();
+    try {
+      const cam = await camDAO.getById(id);
+      if (cam.length > 0) {
+        res.json(cam)
+      } 
+    } catch (error) {
+        res.json({ message: `Problema de consulta no banco, ${err}` });
+    }
+  } else {
+    let usrSess = {
+      nomeUsr: req.session.nomeUsr,
+      Usr: req.session.usuario
+    }
+    res.render('pages/not-found.ejs', { ...usrSess, ...NOAUTH });
   }
 }

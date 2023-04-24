@@ -1,0 +1,104 @@
+<html lang="pt-br">
+
+<head>
+    <title>Informações Funcionário</title>
+    <%- include('../../partials/head'); %>
+</head>
+
+<body onload="iniciar()">
+    <header>
+    </header>
+    <div class="container">
+        <div class="card border-secondary">
+            <div class="bg-deg-primary card-header rounded-top text-white px-3">
+                <h2 id="titulo" class="text-light sombra-dark">
+                    <i class="bi bi-person-badge"> Funcionário <%= func.id %></i>
+                </h2>
+            </div>
+            <div class="dados mt-0 px-3">
+                <div class="row col-12">
+                    <strong class="pe">Nome: </strong>
+                    <p class="pe" id="nomeE">
+                        <%= func.nome%>
+                    </p>
+                </div>
+                <div class="row colu col-12 col-md-4 col-sm-4">
+                    <strong class="pe">Salário: </strong>
+                    <p class="pe" id="salario">
+                        R$ <%= func.salario %>
+                    </p>
+                    <strong class="pe ">Cargo: </strong>
+                    <p class="pe" id="cargo">
+                        <%= func.cargo %>
+                    </p>
+                </div>
+                <div class="row colu col-md-4 col-sm-4">
+                    <strong class="pe">Data Nasc.: </strong>
+                    <p class="pe" id="dataNasc">
+                        <%= func.dataNasc%> <br>
+                        ( <%= func.getIdade()%> anos)
+                    </p>
+                <strong class="pe">CTPS: </strong>
+                    <p class="pe" id="ctps">
+                        <%= func.ctps%>
+                    </p>
+                </div>
+                <div class="row colu col-md-4 col-sm-4">
+                    
+                    <strong class="pe">RG: </strong>
+                    <p class="pe" id="rg">
+                        <%= func.rg %>
+                    </p>
+                    <strong class="pe">CPF: </strong>
+                    <p class="pe" id="cpf">
+                        <%= func.cpf %>
+                    </p>
+                </div>
+                <div class="row colu col-md-12 col-12">
+                    <strong class="pe">Endereco: </strong>
+                    <p class="pe" id="endereco">
+                        <%= func.endereco %>
+                    </p>
+                </div>
+                <div class="row colu col-md-3 col-12">
+                    <strong class="pe">Bairro: </strong>
+                    <p class="pe" id="camE">
+                        <%= func.bairro%>
+                    </p>
+                    <strong class="pe">CEP: </strong>
+                    <p class="pe" id="cep">
+                        <%= func.cep %>
+                    </p>
+                </div>
+                <div class="row col-md-3">
+                    <strong class="pe">STATUS: </strong>
+                    <p class="pe" id="status">
+                        <%= func.status %>
+                    </p>
+                </div>
+                <div class="row colu col-md-3">
+                    <strong class="pe">Data Entrada: </strong>
+                    <p class="pe" id="dataEnt">
+                        <%= func.dataEnt%>
+                    </p>
+                    <strong class="pe">Data Saída: </strong>
+                    <p class="pe" id="dataSai">
+                        <%= func.dataSai %>
+                    </p>
+                </div>
+            </div>
+            <a href="/editarFuncionario/<%= func.id %>" class="btn btn-primary" tabindex="1" title="Editar">
+                Editar Funcionário
+                <i class="bi bi-pencil-fill"></i>
+            </a>
+        </div>
+    </div>
+    <footer>
+        <%- include('../../partials/footer'); %>
+    </footer>
+    <script>
+        function iniciar() { }
+    </script>
+</body>
+
+</html>

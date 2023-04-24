@@ -1,0 +1,87 @@
+<html lang="pt-br">
+
+<head>
+    <title>Visualizar Cliente</title>
+    <%- include('../../partials/head'); %>
+</head>
+
+<body>
+    <header>
+    </header>
+    <div class="container">
+        <div class="card border-secondary">
+            <div class="bg-deg-info card-header rounded-top text-white px-3">
+                <h2 id="titulo" class='text-dark sombra-light'>
+                    <i class="bi bi-people-fill"> Cliente <%= cli.id%> </i>
+                </h2>
+            </div>
+            <div class="dados mt-0 px-3">
+                <div class="row col-12">
+                    <strong class="pe">Nome Cliente:</strong>
+                    <p class="pe" id="nome">
+                        <%= cli.nome%>
+                    </p>
+                </div>
+                <div class="row col-sm-4">
+                    <strong class="pe">Apelido:</strong>
+                    <p class="pe" id="apelido">
+                        <%= cli.apelido%>
+                    </p>
+                </div>
+                <div class="row col-sm-4">
+                    <strong class="pe">CNPJ:</strong>
+                    <p class="pe" id="cnpj">
+                        <%= cli.cnpj%>
+                    </p>
+                </div>
+                <div class="row col-sm-4">
+                    <strong class="pe">CPF:</strong>
+                    <p class="pe" id="cpf">
+                        <%= cli.cpf%>
+                    </p>
+                </div>
+                <div class="row col-12">
+                    <strong class="pe">Endereço:</strong>
+                    <p class="pe" id="end">
+                        <%= cli.endereco%>
+                    </p>
+                </div>
+                <div class="row colu">
+                    <strong class="pe">Bairro:</strong>
+                    <p class="pe" id="bairro">
+                        <%= cli.bairro%>
+                    </p>
+                    <strong class="pe">CEP:</strong>
+                    <p class="pe" id="cep">
+                        <%= cli.cep%>
+                    </p>
+                </div>
+                <div class="row colu">
+                    <strong class="pe">Telefone:</strong>
+                    <p class="pe" id="telefone">
+                        <%= cli.telefone%>
+                    </p>
+                    <strong class="pe">Celular:</strong>
+                    <p class="pe" id="celular">
+                        <%= cli.celular%>
+                    </p>
+                </div>
+            
+            </div>
+            <a href="/editarCliente/<%= cli.id%>" class="btn btn-info" tabindex="1" title="Editar">
+                Editar Cliente
+                <i class="bi bi-pencil-fill"></i>
+            </a>
+        </div>
+    </div>
+    <footer>
+        <%- include('../../partials/footer'); %>
+    </footer>
+    <script>
+        function iniciar() {
+
+        }; 
+    </script>
+</body>
+
+</html>

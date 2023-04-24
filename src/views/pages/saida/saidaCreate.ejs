@@ -1,0 +1,94 @@
+<html lang="pt-br">
+
+<head>
+    <title>Criar Saída</title>
+    <!-- Required meta tags -->
+    <%- include('../../partials/head'); %>
+</head>
+
+<body>
+    <header>
+        <%- include('../../partials/header'),{nomeUsr:nomeUsr}; %>
+    </header>
+    <div class="container">
+        <div class="card border-secondary mb-1">
+            <div class="bg-deg-danger mikk card-header rounded-top text-white">
+                <div class=" col-1">
+                    <a href="/saidas" class="btn-top btn btn-light" tabindex="1" title="Voltar">
+                        <i class="bi bi-arrow-return-left" style="font-size: 1.5rem;"></i>
+                    </a>
+                </div>
+                <div class="t-titulo col-11 ">
+                    <h2 id="titulo" class="text-light sombra-dark">
+                        <i class="bi bi-box-arrow-up "> Nova Saída</i>
+                    </h2>
+                </div>
+            </div>
+            <div class="card-body">
+                <form action="/api/setSaida" method="POST">
+                    <div class="mb-3">
+                        <strong for="saida" class="form-label">Nome Saída:</strong>
+                        <input type="text" class="form-control" id="nomeS" name="nomeS" tabindex="2" required>
+                    </div>
+                    <div class="mb-3">
+                        <strong for="saida" class="form-label">Categoria:</strong>
+                        <select id="categoriaS" name="categoriaS" class="form-select" tabindex="3" required>
+                            <option value="nova" >Nova categoria</option>
+                            <% cate.forEach(function(cate) { %>
+                                <option value="<%- cate.categoria %>" selected><%- cate.categoria %></option>
+                                <% }); %>
+                                    
+                        </select>
+                    </div>
+
+                    <div class="mb-3" id="nova-categoria" style="display: none;">
+                        <strong for="novaCategoria" class="form-label">Digite a nova categoria:</strong>
+                        <input type="text" id="novaCategoria" name="novaCategoria" class="form-control" tabindex="4">
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-md-3 col-sm-4 col-5">
+                            <strong for="saida" class="form-label">Valor:</strong>
+                            <input type="number" class="form-control" id="valorS" name="valorS" tabindex="5" step=".01"
+                                required>
+                        </div>
+                        <div class="mb-3 col-md-3 col-sm-4 col-6">
+                            <strong for="saida" class="form-label">Data:</strong>
+                            <input type="datetime-local" class="form-control" id="dataS" name="dataS" tabindex="6"
+                                required>
+                        </div>
+                    </div>
+                    <div class="mb-3 observacoes">
+                        <strong for="saida" class="form-label">Observações:</strong>
+                        <textarea id="obs" name="obs" tabindex="9" rows="7"></textarea>
+                    </div>
+                    <div class="mb-3 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-danger" tabindex="8" title="Salvar">
+                            <i class="bi bi-device-hdd-fill" style="font-size: 3.0rem;"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <%- include('../../partials/footerCreate'); %>
+    </div>
+    <footer>
+        <%- include('../../partials/footer'); %>
+    </footer>
+    <script>
+        const categoriaSelect = document.getElementById("categoriaS");
+        const novaCategoriaDiv = document.getElementById("nova-categoria");
+        const novaCategoriaInput = document.getElementById("novaCategoria");
+
+        categoriaSelect.addEventListener("change", () => {
+            if (categoriaSelect.value === "nova") {
+                novaCategoriaDiv.style.display = "block";
+                novaCategoriaInput.setAttribute("required", "");
+            } else {
+                novaCategoriaDiv.style.display = "none";
+                novaCategoriaInput.removeAttribute("required");
+            }
+        });
+    </script>
+</body>
+
+</html>

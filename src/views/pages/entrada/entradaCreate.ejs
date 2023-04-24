@@ -1,0 +1,119 @@
+<html lang="pt-br">
+
+<head>
+    <title>Criar Entrada</title>
+    <!-- Required meta tags -->
+    <%- include('../../partials/head'); %>
+</head>
+
+<body >
+    <header>
+    </header>
+    <div class="container">
+        <div class="card border-secondary mb-1">
+            <div class="bg-deg-verde mikk card-header rounded-top text-white">
+                <div class=" col-1">
+                <a href="/entradas" class="btn-top btn btn-light" tabindex="1" title="Voltar">
+                    <i class="bi bi-arrow-return-left" style="font-size: 1.5rem;" ></i>
+                </a> </div>   
+                <div class="t-titulo col-11 ">
+                    <h2 id="titulo" class="text-light sombra-dark">
+                        <i class="bi bi-cash-coin"> Nova Entrada</i>
+                    </h2>
+                </div>
+            </div>
+            <div class="card-body">
+                <form action="/api/setEnt" method="POST" id="formEnt">
+                    <div class="mb-3">
+                        <strong for="Pedido" class="form-label">Nome Entrada</strong>
+                        <input type="text" class="form-control" id="nomeE" name="nomeE" tabindex="2" required>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-5 col-md-5 col-sm-12">
+                            <strong for="Pedido" class="form-label">Cliente:</strong>
+                            <select class="form-select" id="cliE" name="cliE" tabindex="3" required>
+                                <% cli.forEach(function(cli) { %>
+                                    <option value="<%- cli.id %>"><%- cli.nome %></option>
+                                    <% }); %>
+                            </select>
+                        </div>
+                        <div class="mb-5 col-md-5 col-sm-12">
+                            <strong for="Pedido" class="form-label">Vendedor:</strong>
+                            <select id="vendE" name="vendE" class="form-select" tabindex="4" required>
+                                <% vend.forEach(function(vend) { %>
+                                    <option value="<%- vend.id %>"><%- vend.nome %></option>
+                                    <% }); %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-5 col-md-5 col-sm-12">
+                            <strong for="Pedido" class="form-label">Motorista:</strong>
+                            <select id="motoE" name="motoE" class="form-select" tabindex="5" required>
+                                <% moto.forEach(function(moto) { %>
+                                    <option value="<%- moto.id %>"><%- moto.nome %></option>
+                                    <% }); %>
+                            </select>
+                        </div>
+                        <div class="mb-3 col-md-3 col-sm-12">
+                            <strong for="Pedido" class="form-label">Caminhão:</strong>
+                            <select class="form-select" id="camE" name="camE" tabindex="6" required>
+                                <% cam.forEach(function(cam) { %>
+                                    <option value="<%- cam.id %>"> <%- cam.placa %></option>
+                                    <% }); %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-md-3 col-sm-4 col-5">
+                            <strong for="Pedido" class="form-label">Valor:</strong>
+                            <input type="number" class="form-control" id="valorE" name="valorE" tabindex="7"
+                                step=".01" min=".01" required>
+                        </div>
+                        <div class="mb-3 col-md-3 col-sm-4 col-6">
+                            <strong for="Pedido" class="form-label">Quantidade:</strong>
+                            <input type="number" class="form-control" id="qtdE" name="qtdE" tabindex="8"
+                                min="1" required>
+                        </div>
+                        <div class="mb-3 col-md-3 col-sm-12">
+                            <strong for="Pedido" class="form-label">Total:</strong>
+                            <input type="text" class="form-control" id="totalE" name="totalE" readonly>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <strong for="Pedido" class="form-label">Data Entrada:</strong>
+                        <input type="datetime-local" class="form-control" id="dataE" name="dataE" tabindex="9" required>
+                    </div>
+                    <div class="mb-3 observacoes">
+                        <strong for="Pedido" class="form-label">Observações:</strong>
+                        <textarea id="obs" name="obs" tabindex="9" rows="10"></textarea>
+                    </div>
+                    <div class="mb-3 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-success" tabindex="11" title="Salvar">
+                            <i class="bi bi-device-hdd-fill" style="font-size: 3.0rem;"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <%- include('../../partials/footerCreate'); %>
+    </div>
+    <footer>
+
+        <%- include('../../partials/footer'); %>
+    </footer>
+    <script>
+
+        function calculo() {
+            let qtd = document.getElementById("qtdE").value;
+            let valor = document.getElementById("valorE").value;
+            let t = qtd * valor;
+            document.getElementById("totalE").value = t.toFixed(2)
+        }
+        document.getElementById("qtdE").addEventListener("input", calculo);
+        document.getElementById("valorE").addEventListener("input", calculo);
+    </script>
+
+</body>
+
+</html>

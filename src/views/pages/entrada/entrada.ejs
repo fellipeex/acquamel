@@ -1,0 +1,172 @@
+<html lang="pt-br">
+
+<head>
+  <title>Entrada</title>
+  <%- include('../../partials/headIndex'); %>
+</head>
+
+<body onload="iniciar()">
+  <div id="wrapper">
+    <div class="overlay"></div><!-- precisa acabar aqui -->
+    <header>
+      <% if(typeof nomeUsr !="undefined" && Usr!="undefined" ){ %>
+        <%- include('../../partials/header'),{nomeUsr:nomeUsr, Usr:Usr}; %>
+          <% } %>
+    </header>
+    <div id="page-content-wrapper"><!-- início da página -->
+
+      <!-- Criando botão do menu -->
+      <button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
+        <span class="hamb-top"></span>
+        <span class="hamb-middle"></span>
+        <span class="hamb-bottom"></span>
+      </button>
+      <div>
+        <div class="col-lg-12 col-lg-offset-2">
+          <a href="/novaEntrada" class="btn-outline-success btn-flutuante">
+            <i class="bi bi-plus-circle-fill" style="font-size:30px;"></i>
+          </a>
+          <div class="bg-deg-verde con">
+            <h1 class="text-light sombra-dark">
+              <i class="bi bi-cash-coin"></i> Entradas</h1>
+          </div>
+        </div>
+        <div class="tabela tbEntrada">
+          <div class="col-lg-12 col-lg-offset-2">
+            <div class="row">
+              <table id="tbEnt" class="table table-striped text-center m-4">
+                <thead>
+                  <tr class="bg-deg-verde text-white">
+                    <th scope="col">ID</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Motorista</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Data</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody class="bg-light">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="infos" class="infos"></div>
+    </div>
+  </div>
+  <footer>
+    <%- include('../../partials/footer'); %>
+  </footer>
+  <script src="https://cdn.datatables.net/plug-ins/1.11.5/sorting/datetime-moment.js"></script>
+  <script src="https://cdn.datatables.net/plug-ins/1.11.5/sorting/datetime-moment.js"></script>
+
+  <script>
+    function iniciar() {
+      myMenu();
+    }
+    var isUserAdmin
+      if('<%=Usr%>' && '<%=Usr.classe%>' ==="admin"){
+        isUserAdmin = true
+      }else{
+        isUserAdmin = false
+      }
+    $(document).ready(function () {
+      $('#tbEnt').DataTable({
+        ajax: {
+          url: "/api/getEnt",
+          dataSrc: ""
+        },
+        columns: [
+          {
+            data: null,
+            "render": function (data) {
+              return '<a onclick="getEntInfoById(' + data.id + ')"' +
+                ' class="btn btn-sm btn-outline-secondary" title="Ver mais"><i class="bi bi-eye-fill"></i></a><br>' + data.id;
+            }
+          },
+          { data: "nome" },
+          { data: "cliente" },
+          { data: "motorista" },
+          {
+            data: null,
+            "render": function (data) {
+              return "R$ " + data.total.toFixed(2)
+            }
+
+          },
+          { data: "dataE" },
+          {
+            data: null,
+            "orderable": false,
+            "render": function (data) {
+              let btnHtml = '<a onclick="getEntEditById(' + data.id + ')" class="btn btn-outline-primary" title="Editar"><i class="bi bi-pencil-fill"></i></a>' 
+              if (isUserAdmin) {
+                btnHtml += '<a class="btn btn-outline-danger" onclick="confirmar(' + data.id + ')" title="Apagar"><i class="bi bi-trash-fill"></i></a>';
+              }
+              return btnHtml;
+            }
+          }
+        ],
+        columnDefs: [
+          {
+            targets: [5], // índice da coluna data
+            type: 'datetime-moment',
+            moment: {
+              format: 'DD/MM/YYYY HH:mm',
+              locale: 'pt-br'
+            },
+            render: function (data, type, row) {
+              if (type === 'sort') {
+                return moment(data, 'DD/MM/YYYY HH:mm').unix();
+              } else {
+                return moment(data, 'DD/MM/YYYY HH:mm').format('DD/MM/YYYY HH:mm');
+              }
+            }
+          }
+        ],
+
+        "order": [[0, 'desc']],
+        pageLenght: 10,
+        lenghtMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']],
+
+        language: {
+          lengthMenu: 'Exibindo _MENU_ Dados',
+          zeroRecords: 'Nenhum dado foi encontrado',
+          info: 'Página _PAGE_ de _PAGES_',
+          infoEmpty: 'Sem dados',
+          infoFiltered: '(Filtrado: _END_ do total de _MAX_ registros)',
+          search: '<i class="bi bi-search pesquisa mb-1 lg-mx-auto md-ml-auto"></i>',
+          paginate: {
+            first: "Primeira",
+            last: "Última",
+            next: "Próxima",
+            previous: "Anterior"
+          }
+        },
+        stateSave: true
+      });
+    });
+    function confirmar(id) {
+      Swal.fire({
+        title: 'Tem certeza que deseja apagar Entrada?',
+        text: "Você não poderá reverter isso.",
+        icon: 'warning',
+        showDenyButton: true,
+        confirmButtonColor: '#ff0000',
+        denyButtonColor: '#8d8d8d',
+        denyButtonText: 'Cancelar',
+        confirmButtonText: 'Apagar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location = '/api/delEnt/' + id;
+        }
+      })
+    }
+
+  </script>
+
+</body>
+
+</html>

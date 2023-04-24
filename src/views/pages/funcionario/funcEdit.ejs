@@ -1,0 +1,146 @@
+<html lang="pt-br">
+
+<head>
+    <title>Editar Usuário</title>
+    <%- include('../../partials/head'); %>
+</head>
+
+<body onload="iniciar()">
+    <header>
+    </header>
+    <div class="container ">
+        <div class="card border-secondary">
+            <div class="bg-deg-primary mikk card-header rounded-top text-white px-3 ">
+                <div class=" col-1">
+                    <a href="/infosFuncionario/<%= func.id %>" class="btn-top btn btn-light" tabindex="1" title="Voltar" style="font-size: 1.5rem;">
+                        <i class="bi bi-arrow-return-left"></i>
+                    </a>
+                </div>
+                <div class="t-titulo col-11 ">
+                    <h2 id="titulo" class="text-light sombra-dark">
+                        <i class="bi bi-person-badge">Editar Funcionario <%= func.id %></i>
+                    </h2>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <form action="/api/updateFunc" method="POST">
+                    <input type="text" name="id" id="id" hidden value="<%= func.id %>">
+                    <div class="formEdit">
+                        <div class="mb-3 col-sm-11 col-12">
+                            <strong for="funcionario" class="form-label">Nome</strong>
+                            <input type="text" class="form-control" id="nome" name="nome" tabindex="2"
+                                value="<%= func.nome %>" required>
+                        </div>
+                    </div>
+                    <div class="formEdit">
+                        <div  class="mb-3 col-md-5 col-sm-11 col-12">
+                            <strong for="funcionario" class="form-label">Data Nasc.</strong>
+                            <input type="date" class="form-control" id="dataNasc" name="dataNasc" 
+                            <% if(func.dataNasc !== "00/00/0000" && func.dataNasc !== null){ %> value="<%= func.getDataNascUs() %>"<% } %>
+                            tabindex="3">
+                        </div>
+                        <div class="mb-3 col-md-5 col-sm-11 col-12">
+                            <strong for="funcionario" class="form-label">CTPS</strong>
+                            <input type="text" class="form-control" id="ctps" name="ctps" tabindex="4"
+                                value="<%= func.ctps %>" required>
+                        </div>
+                        <div class="mb-3 col-md-3 col-sm-5 col-12">
+                            <strong for="funcionario" class="form-label">RG</strong>
+                            <input type="text" class="form-control" id="rg" name="rg" tabindex="5"
+                                placeholder="00000000-0" pattern="\d{8}-\d{1}" value="<%=func.rg%>" required>
+                        </div>
+                        <div class="mb-3 col-md-4 col-sm-5 col-12">
+                            <strong for="funcionario" class="form-label">CPF</strong>
+                            <input type="text" class="form-control" id="cpf" name="cpf" tabindex="6"
+                            placeholder="000.000.000-00" pattern="\d{3}.\d{3}.\d{3}-\d{2}" value="<%=func.cpf%>" required>
+                        </div>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-md-5 col-sm-11 col-12">
+                            <strong for="funcionario" class="form-label">Endereço</strong>
+                            <input type="text" class="form-control" id="endereco" name="endereco" tabindex="7"
+                                value="<%= func.endereco %>" required>
+                        </div>
+                        <div class="mb-3 col-md-5 col-sm-5 col-12">
+                            <strong for="funcionario" class="form-label">Bairro</strong>
+                            <input type="text" class="form-control" id="bairro" name="bairro" tabindex="8"
+                                value="<%= func.bairro %>" required>
+                        </div>
+                        <div class="mb-3 col-md-5 col-sm-5 col-12">
+                            <strong for="funcionario" class="form-label">CEP</strong>
+                            <input type="text" class="form-control" id="cep" name="cep" tabindex="9" 
+                            placeholder="00000-000"pattern="\d{5}-\d{3}" value="<%= func.cep %>" required>
+                        </div>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-md-3 col-sm-4 col-11">
+                            <strong for="funcionario" class="form-label"> Status </strong>
+                            <select id="status" name="status" class="form-select" tabindex="10" required>
+                                <option value="Ligado"<% if (func.status==='Ligado' ) { %>selected<% } %>>Ligado</option>
+                                <option value="Desligado"<% if (func.status==='Desligado' ) { %>selected<% } %>>Desligado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-md-3 col-sm-4 col-11">
+                            <strong for="funcionario" class="form-label">Data Entrada</strong>
+                            <input type="date" class="form-control" id="dataEnt" name="dataEnt" tabindex="11"
+                                value="<%= func.getDataEntUs() %>" required>
+                        </div>
+                        <div id="dataSaida" class="mb-3 col-md-3 col-sm-4 col-11" style="display: none;">
+                            <strong for="funcionario" class="form-label">Data Saída</strong>
+                            <input type="date" class="form-control" id="dataSai" name="dataSai" 
+                            <% if(func.dataSai !== "00/00/0000" && func.dataSai !== null){ %> value="<%= func.getDataSaiUs() %>"<% } %>
+                            tabindex="12">
+                        </div>
+                    </div>
+                    <div class="formEdit">
+                    <div class="mb-3 col-md-3 col-sm-4 col-11">
+                        <strong for="funcionario" class="form-label">Salario</strong>
+                        <input type="number" class="form-control" id="salario" name="salario" tabindex="13" min="1000"
+                            step=".01" value="<%= func.salario %>" required>
+                    </div>
+                    <div class="mb-3 col-md-3 col-sm-4 col-11">
+                        <strong for="funcionario" class="form-label">Cargo</strong>
+                        <input type="text" class="form-control" id="cargo" name="cargo" tabindex="14" min="2"
+                            value="<%= func.cargo %>" required>
+                    </div>
+                </div>
+                    <div class="mb-3 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary" tabindex="15" title="Salvar">
+                            <i class="bi bi-device-hdd-fill" style="font-size: 3.0rem;"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include('../../partials/footerCreate'); %>
+    <footer>
+        <%- include('../../partials/footer'); %>
+    </footer>
+    <script>
+        function iniciar() {
+            const statusSelect = document.getElementById("status");
+            const dataSaidaDiv = document.getElementById("dataSaida");
+            const dataSaidaInput = document.getElementById("dataSai");
+            if (statusSelect.value === "Desligado"){
+                dataSaidaDiv.style.display = "block";
+                dataSaidaInput.setAttribute("required", "");
+            }
+            statusSelect.addEventListener("change", () => {
+                if (statusSelect.value === "Desligado") {
+                    dataSaidaDiv.style.display = "block";
+                    dataSaidaInput.setAttribute("required", "");
+                } else {
+                    dataSaidaDiv.style.display = "none";
+                    dataSaidaInput.removeAttribute("required");
+                }
+            });
+        }  
+    </script>
+
+</body>
+
+</html>

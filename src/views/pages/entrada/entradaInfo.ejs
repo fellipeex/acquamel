@@ -1,0 +1,110 @@
+<html lang="pt-br">
+
+<head>
+    <title>Entrada Infos</title>
+    <%- include('../../partials/head'); %>
+</head>
+
+<body onLoad="iniciar()">
+    <header>
+    </header>
+    <div class="container">
+        <div class="card border-secondary">
+            <div class="bg-deg-verde card-header rounded-top text-white px-3">
+                <h2 id="titulo" class="text-light sombra-dark">
+                    <i class="bi bi-cash-coin"> Entrada <%= ent.id %></i>
+                </h2>
+            </div>
+            <div class="dados mt-0 px-3">
+                <div class="row col-12">
+                    <strong class="pe">Nome: </strong>
+                    <p class="pe" id="nomeE">
+                        <%= ent.nome%>
+                    </p>
+                </div>
+                <div class="row col-12 col-sm-6">
+                    <strong class="pe">Cliente: </strong>
+                    <p class="pe" id="cliE">
+                        <%= cli.nome%>
+                    </p>
+                </div>
+
+                <div class="row col-12 col-sm-6">
+                    <strong class="pe">Vendedor: </strong>
+                    <p class="pe" id="vendE">
+                        <%= vend.nome %>
+                    </p>
+                </div>
+                <div class="row colu">
+                    <strong class="pe">Motorista: </strong>
+                    <p class="pe" id="motoE">
+                        <%= moto.nome %>
+                    </p>
+                    <strong class="pe">Caminhão: </strong>
+                    <p class="pe" id="camE">
+                        <%= cam.placa%>
+                    </p>
+                </div>
+
+                <div class="row colu">
+                    <strong class="pe">Valor: </strong>
+                    <p class="pe" id="valorE">
+                        R$ <%= ent.valor %>
+                    </p>
+                    <strong class="pe justify-content-center">
+                        <btn onclick="alterarMedida()" id="btnTrocar" class="btn btn-sm btn-outline-secondary"
+                            title="Trocar para Litros">
+                            <i class="bi bi-arrow-clockwise "></i>
+                        </btn>Quantidade:
+                    </strong>
+                    <p class="pe" id="qtdE"><%= ent.qtd %> M³</p>
+                </div>
+                <div class="row">
+                    <strong class="pe">Total: </strong>
+                    <p class="pe" id="totalE">
+                        R$ <%= ent.total.toFixed(2) %>
+                    </p>
+                </div>
+                <div class="row">
+                    <strong class="pe">Data: </strong>
+                    <p class="pe" id="dataE">
+                        <%= ent.dataE %>
+                    </p>
+                </div>
+                <div class="row col-12">
+                    <strong class="pe">Obs: </strong>
+                    <p class="pe" id="obsE">
+                        <%= ent.obs %>
+                    </p>
+                </div>
+            </div>
+            <a href="/editarEntrada/<%= ent.id %>" class="btn btn-success" tabindex="1" title="Editar">
+                Editar Entrada
+                <i class="bi bi-pencil-fill"></i>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <%- include('../../partials/footer'); %>
+    </footer>
+    <script>
+
+        const stringQtd = document.getElementById('qtdE')
+        const btnTrocar = document.getElementById('btnTrocar')
+        function alterarMedida() {
+            if (btnTrocar.title === 'Trocar para Metros Cubicos') {
+                stringQtd.innerHTML = '<%=ent.qtd %>' + ' M³'
+                btnTrocar.title = 'Trocar para Litros'
+            }
+            else if (btnTrocar.title === 'Trocar para Litros') {
+                stringQtd.innerHTML = '<%=ent.getLitros()%>' + ' Litros';
+                btnTrocar.title = 'Trocar para Metros Cubicos'
+                
+            }
+        }
+        async function iniciar() { }
+    </script>
+</body>
+
+</html>

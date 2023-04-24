@@ -1,0 +1,97 @@
+<html lang="pt-br">
+
+<head>
+    <title>Saída Info</title>
+    <%- include('../../partials/head'); %>
+</head>
+
+<body>
+    <header>
+    </header>
+    <div class="container">
+        <div class="card border-secondary">
+            <div class="bg-deg-danger card-header rounded-top text-white px-3">
+                <h2 id="titulo" class="text-light sombra-dark">
+                    <i class="bi bi-box-arrow-up "> Saída <%= sai.id %></i>
+                </h2>
+            </div>
+            <div class="dados col-12 mt-0 px-3">
+
+                <div class="row col-12">
+                    <strong class="pe">Nome: </strong>
+                    <p class="pe" id="nomeS">
+                        <%= sai.nome%>
+                    </p>
+                </div>
+
+                <div class="row col-sm-4">
+                    <strong class="pe">Categoria: </strong>
+                    <p class="pe" id="categoriaS">
+                        <%= sai.categoria%>
+                    </p>
+                </div>
+                <div class="row col-sm-4">
+                    <strong class="pe">Valor: </strong>
+                    <p class="pe" id="valorS">
+                        R$ <%- sai.valor.toFixed(2) %>
+                    </p>
+                </div>
+                <div class="row col-sm-4">
+                    <strong class="pe">Data: </strong>
+                    <p class="pe" id="dataS">
+                        <%= sai.data %>
+                    </p>
+                </div>
+                <div class="row col-12">
+                    <strong class="pe">Obs: </strong>
+                    <p class="pe" id="obs">
+                        <%= sai.obs %>
+                    </p>
+                </div>
+
+            </div>
+            <a href="/editarSaida/<%= sai.id %>" class="btn btn-danger" tabindex="2" title="Editar">
+                Editar Saída <i class="bi bi-pencil-fill"></i>
+            </a>
+        </div>
+    </div>
+    <footer>
+        <%- include('../../partials/footer'); %>
+    </footer>
+    <script>
+        function iniciar() {/* 
+            let url = "/getSaida/" + '';
+            console.log(url);
+            const loadData = () => {
+                const req = new XMLHttpRequest();
+                req.onload = reqListener;
+                req.open("get", url, true);
+                req.send();
+            };
+            const reqListener = response => {
+                let a = JSON.parse(response.currentTarget.response);
+                let sai = a[0];
+                //declatação das variaveis
+                let t1 = document.getElementById("titulo");
+                let sid = document.getElementById("idSaida");
+                let nome = document.getElementById("nomeSaida");
+                let categoria = document.getElementById("categoriaSaida");
+                let vlr = document.getElementById("valorSaida");
+                let dataS = document.getElementById("dataSaida");
+                let obs = document.getElementById("obsSaida");
+                // definindo valores no HTML
+                t1.innerHTML = "Visualização de Saída: " + sai.saida_id;
+                sid.innerHTML = sai.saida_id;
+                nome.innerHTML = sai.saida_nome;
+                categoria.innerHTML = sai.saida_categoria;
+                vlr.innerHTML = "R$ " + sai.total.toFixed(2);
+                dataS.innerHTML = sai.data;
+                obs.innerHTML = sai.saida_obs;
+            };
+            loadData(); */
+        }; 
+    </script>
+
+</body>
+
+</html>

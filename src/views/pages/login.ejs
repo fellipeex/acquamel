@@ -1,0 +1,53 @@
+<html lang="pt-br">
+  <head>
+    <title>ACQUAMEL - LOGIN</title>
+    <%-  include('../partials/head') %>
+       <!-- Importações de design e modelos css  -->
+    <link rel="stylesheet" type="text/css" href="/public/css/login.css">   
+    <link href='https://fonts.googleapis.com/css?family=Oleo+Script' rel='stylesheet'> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/public/js/celulas.js"></script>
+  </head> 
+  <body onLoad="efeito()">
+    <div class="canvas1" id="canvas1" name="canvas1"></div>
+    <canvas class="canvas66" id="canvas66"></canvas>
+    <div  id="login">
+      
+      <div class="d-flex justify-content-center">
+        <div class="user_card">
+          <div class="d-flex justify-content-center">
+            <div class="brand_login_container">
+              <img src="/public/img/logo.png" class="brand_login" alt="Logo">
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center form_container">
+            <h1 class="text-light sombra-dark">Acquamel</h1>
+            <br>
+            <form action="/api/auth" method="POST">
+              <div class="input-group mb-3">
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                </div>
+                <input type="text" name="email" id="email" class="form-control input_user" value="" placeholder="E-mail" autocomplete="email" required>
+              </div>
+              <div class="input-group mb-2">
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="bi bi-key-fill"></i></span>
+                </div>
+                <input type="password" name="senha" id="senha" class="form-control input_pass" value="" placeholder="Senha" autocomplete="current-password" required>
+              </div>
+              
+              
+                <div class="d-flex justify-content-center mt-3 login_container">
+             <button type="submit" name="button" class="btn login_btn">Login</button>
+             </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div> 
+    <footer>
+      <%- include('../partials/footer') %>
+    </footer>
+  </body>
+</html>

@@ -1,175 +1,123 @@
-const conn = require('../Config/database/db');
+import {ClienteDAO,Cliente} from '../Models/cliente/ClienteDAO.js';
+import * as al from './alertas/alertasCliente.js'
+import { NOAUTH } from './alertas/alertas.js';
 
 //----------------------------------------------------------CLIENTES-----------------------
-//--------------GETS JSON ALL CLIENTES 
-exports.getAll = async (req, res)=> {
-  if(req.session.loggedin){
-    conn.query('SELECT * FROM tb_cliente;', (error, results) => {
-      if (error) {
-        throw error;
-      } else {
-        data = JSON.stringify(results);
-         res.send(data);
-      }
-    })
-  }else{
-    res.redirect('/');
-  }
-}
-//-----------GET JSON CLIENTES EXPECÍFICO
-exports.get = (req, res) => {
-  if(req.session.loggedin){  
-    const id = req.params.id;
-    conn.query('SELECT * FROM tb_cliente WHERE cli_id=?', [id], (error, results) => {
-      if (error) {
-        throw error;
-      } else {
-        data = JSON.stringify(results);
-        res.send(data);
-      }
-      
-    })
-  }else{
-    res.redirect('/');
-  }
-}
-//----------------------------------------------------------CRUD
-
 //----------------------------SAVE
-exports.set = async (req,res)=>{
-  if(req.session.loggedin){
-    const nomeCli = req.body.nomeCli;
-    const cpfCli = req.body.cpfCli;
-    const cnpjCli = req.body.cnpjCli;
-    const endCli = req.body.endCli;
-    const bairroCli = req.body.bairroCli;
-    const cepCli = req.body.cepCli;
-    const telefoneCli = req.body.telefoneCli;
-    const celularCli = req.body.celularCli;
-    const apelidoCli = req.body.apelidoCli;
-    conn.query('INSERT INTO tb_cliente SET ?', {cli_nome:nomeCli , cli_cpf:cpfCli, cli_cnpj:cnpjCli, cli_endereco:endCli, cli_bairro:bairroCli, cli_cep:cepCli, cli_telefone:telefoneCli, cli_celular:celularCli, cli_apelido:apelidoCli}, (error, results) =>{
-        if(error){
-          console.log(error);
-          res.render('pages/cliente/cliCreate.ejs',{
-              nomeUsr: req.session.name,
-              classeUsr: req.session.classe,
-              alert:true,
-              aTitle:'ERRO - Cliente não criado',
-              aText:'Não foi concluir criação de Cliente com êxito!',
-              aIcon:'error',
-              scb: false,
-              timer: 2000,
-              rota:'/clientes'
-          });
-      }else { 
-          res.render('pages/cliente/cliCreate.ejs',{
-              nomeUsr: req.session.name,
-              classeUsr: req.session.classe,
-              alert:true,
-              aTitle:'Cliente Criado',
-              aText:'Sucesso na criação de Cliente!',
-              aIcon:'success',
-              scb: false,
-              timer: 2000,
-              rota:'/clientes'
-          });
-      }
-    })
-  }else{
-    res.redirect('/');
+export const set = async (req, res) => {
+  let usrSess= {
+    nomeUsr: req.session.nomeUsr,
+    Usr: req.session.usuario}
+  if (req.session.loggedin) {
+    const nome = req.body.nome;
+    const apelido = req.body.apelido;
+    const cpf = req.body.cpf;
+    const cnpj = req.body.cnpj;
+    const endereco = req.body.endereco;
+    const bairro = req.body.bairro;
+    const cep = req.body.cep;
+    const telefone = req.body.telefone;
+    const celular = req.body.celular;
+    const cli = new Cliente(null, nome, apelido, cnpj, cpf, endereco, bairro, cep, telefone, celular)
+    try{
+      const cliDAO = new ClienteDAO()
+      await cliDAO.save(cli)
+      res.render('pages/cliente/cliCreate.ejs',{...usrSess, ...al.SetSuccess});
+    }catch(err) {
+      console.error(err);
+      res.render('pages/cliente/cliCreate.ejs',{...usrSess, ...al.SetError});
+    }
+  } else { 
+    res.render('pages/not-found.ejs',{...usrSess, ...NOAUTH});
   }
 }
 //-----------------------UPDATE
-exports.update = async (req,res)=>{
-  if(req.session.loggedin){
+export const update = async (req, res) => {
+  let usrSess= {
+    nomeUsr: req.session.nomeUsr,
+    Usr: req.session.usuario}
+  if (req.session.loggedin) {
     const id = req.body.id;
-    const nomeCli = req.body.nomeCli;
-    const cpfCli = req.body.cpfCli;
-    const cnpjCli = req.body.cnpjCli;
-    const endCli = req.body.endCli;
-    const bairroCli = req.body.bairroCli;
-    const cepCli = req.body.cepCli;
-    const telefoneCli = req.body.telefoneCli;
-    const celularCli = req.body.celularCli;
-    const apelidoCli = req.body.apelidoCli;
-    conn.query('UPDATE tb_cliente SET ? WHERE cli_id = ?', [{cli_nome:nomeCli , cli_cpf:cpfCli, cli_cnpj:cnpjCli, cli_endereco:endCli, cli_bairro:bairroCli,
-         cli_cep:cepCli, cli_telefone:telefoneCli, cli_celular:celularCli, cli_apelido:apelidoCli}, id], (error, results) =>{
-        if(error){
-        console.log(error);
-        res.render('pages/cliente/cliEdit.ejs',{
-            id:id,
-            nomeUsr: req.session.name,
-            classeUsr: req.session.classe,
-            alert:true,
-            aTitle:'ERRO - Atualização não realizada',
-            aText:'Atualização de Cliente não foi concluída com êxito!',
-            aIcon:'error',
-            scb: false,
-            timer: 2000,
-            rota:'/clientes'
-        });
-      }else { 
-        res.render('pages/cliente/cliEdit.ejs',{
-            id:id,
-            nomeUsr: req.session.name,
-            classeUsr: req.session.classe,
-            alert:true,
-            aTitle:'Cliente atualizado',
-            aText:'Sucesso na atualização de Cliente!',
-            aIcon:'success',
-            scb: false,
-            timer: 2000,
-            rota:'/clientes'
-        });
-      }
-    })
-  } else{
-    res.redirect('/');
+    const nome = req.body.nome;
+    const apelido = req.body.apelido;
+    const cpf = req.body.cpf;
+    const cnpj = req.body.cnpj;
+    const endereco = req.body.endereco;
+    const bairro = req.body.bairro;
+    const cep = req.body.cep;
+    const telefone = req.body.telefone;
+    const celular = req.body.celular;
+    const cli = new Cliente(id, nome, apelido, cnpj, cpf, endereco, bairro, cep, telefone, celular)
+    try{
+      const cliDAO = new ClienteDAO()
+      await cliDAO.save(cli)
+      res.render('pages/cliente/cliCreate.ejs',{...usrSess, ...al.UpdateSuccess(id)});
+    }catch(err) {
+      console.error(err);
+      res.render('pages/cliente/cliCreate.ejs',{...usrSess, ...al.UpdateError(id)});
+    }
+  } else { 
+    res.render('pages/not-found.ejs',{...usrSess, ...NOAUTH});
   }
 }
 //----------------DELETE
-exports.delete =  (req, res) => {
-  if(req.session.loggedin && req.session.classe){
+export const del = async(req, res) => {
+  let usrSess= {
+    nomeUsr: req.session.nomeUsr,
+    Usr: req.session.usuario
+  }
+  if (req.session.loggedin && req.session.usuario.classe =="admin") {
     const id = req.params.id;
-    conn.query('DELETE FROM tb_cliente WHERE cli_id=?', [id], (error, results) => {
-      if (error) {
-        console.log(error);
-          res.render('pages/cliente/cliente.ejs',{
-            nomeUsr: req.session.name,
-            classeUsr: req.session.classe,
-            alert:true,
-            aTitle:'ERRO - Cliente não deletado',
-            aText:'Não foi possível apagar Cliente com êxito!',
-            aIcon:'error',
-            scb: false,
-            timer: 2000,
-            rota:'/clientes'
-          });
-      } else { 
-        res.render('pages/cliente/cliente.ejs',{
-          nomeUsr: req.session.name,
-          classeUsr: req.session.classe,
-          alert:true,
-          aTitle:'Cliente Deletado',
-          aText:'Cliente deletado com sucesso!',
-          aIcon:'success',
-          scb: false,
-          timer: 2000,
-          rota:'/clientes'
-        });
+    try{
+      const cliDAO = new ClienteDAO()
+      await cliDAO.delete(id)
+      res.render('pages/cliente/cliente.ejs',{...usrSess, ...al.DelSuccess});
+    }catch(error) {
+      console.error(error);
+      res.render('pages/cliente/cliente.ejs',{...usrSess, ...al.DelError(error)});
+    }
+  } else { 
+    res.render('pages/not-found.ejs',{...usrSess, ...NOAUTH});
+  }
+}
+//-----------------------------------------------------GETS JSON ALL Clientes 
+export const getAll = async (req, res) => {
+  if (req.session.loggedin) {
+    const cliDAO = new ClienteDAO();
+    try {
+      const cli = await cliDAO.getAll();
+      if (cli.length > 0) {
+        res.json(cli)
       }
-    })
-  }else { 
-    res.render('pages/cliente/cliente.ejs',{
-        nomeUsr: req.session.name,
-        classeUsr: req.session.classe,
-        alert:true,
-        aTitle:'Você não tem Permissão',
-        aText:'Usuário sem permissão para o solicitar acesso ao recurso. Contate um administrador',
-        aIcon:'error',
-        scb: false,
-        timer: 3000,
-        rota:'/clientes'
-    });
+    } catch (error) {
+        res.json({ message: `Problema de consulta no banco, ${error}` })
+    }
+  } else {
+    let usrSess = {
+      nomeUsr: req.session.nomeUsr,
+      Usr: req.session.usuario
+    }
+    res.render('pages/not-found.ejs', { ...usrSess, ...NOAUTH });
+  }
+}
+//--------------GETS JSON Caminhão BY ID
+export const getById = async (req, res) => {
+  if (req.session.loggedin) {
+    const id = req.params.id;
+    const cliDAO = new ClienteDAO();
+    try {
+      const cam = await cliDAO.getById(id);
+      if (cam.length > 0) {
+        res.json(cam)
+      } 
+    } catch (error) {
+        res.json({ message: `Problema de consulta no banco, ${error}` });
+    }
+  } else {
+    let usrSess = {
+      nomeUsr: req.session.nomeUsr,
+      Usr: req.session.usuario
+    }
+    res.render('pages/not-found.ejs', { ...usrSess, ...NOAUTH });
   }
 }

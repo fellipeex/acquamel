@@ -7,12 +7,24 @@ body,html {
 #login{
     z-index:2;
 }
+body.swal2-height-auto {
+    height: 100vh!important;
+}
+h1{
+    font-family: 'Oleo Script', cursive;
+    display: flex;
+    justify-content: center;
+}
 #canvas66{
     z-index:0;
+    margin: 0px;
+    background: #fff;
+    border-radius: 0px;
     position:absolute;
     top: 0;left: 0;
-    width: 100%;
-    height:100%;
+    width: 100vw;
+    height:100vh;
+    min-height: 555px;
     background: linear-gradient(130deg, #136EF0,#12A1E6,#2D13F0,#6512E6,#1C38D9,#142899);
 }
 .user_card {
@@ -51,7 +63,7 @@ body,html {
     border: 2px solid white;
 }
 .form_container {
-    margin-top: 100px;
+    margin-top: 60px;
 }
 .login_btn {
     width: 100%;
@@ -66,6 +78,7 @@ body,html {
     padding: 0 2rem;
 }
 .input-group-text {
+    padding: 0.7rem 0.75rem!important;
     background: #2D13F0 !important;
     color: white !important;
     border: 0 !important;

@@ -1,0 +1,76 @@
+<html lang="pt-br">
+
+<head>
+    <title>Visualizar Caminhão</title>
+    <%- include('../../partials/head'); %>
+</head>
+
+<body>
+    <header>
+    </header>
+    <div class="container">
+        <div class="card border-secondary">
+            <div class="bg-deg-warning card-header rounded-top text-white px-3">
+                <h2 id="titulo" class='text-dark sombra-light'>
+                    <i class="bi bi-truck mb-1 sm-ml-auto"> Caminhão <%= cam.id%> </i>
+                </h2>
+            </div>
+            <div class="dados col-12 mt-0 px-3">
+                <div class="row col-12">
+                     <strong class="pe">Nome Caminhão: </strong>
+                    <p class="pe" id="nomeCam">
+                        <%= cam.nome%>
+                    </p>
+                </div>
+                <div class="row col-12 col-sm-4">
+                     <strong class="pe">Placa: </strong>
+                    <p class="pe" id="placaCam">
+                        <%= cam.placa%>
+                    </p>
+                </div>
+                <div class="row col-6 col-sm-4">
+                     <strong class="pe">Marca: </strong>
+                    <p class="pe" id="marcaCam">
+                        <%= cam.marca%>
+                    </p>
+                </div>
+                <div class="row col-6 col-sm-4">
+                     <strong class="pe">Ano: </strong>
+                    <p class="pe" id="anoCam">
+                        <%= cam.ano%>
+                    </p>
+                </div>
+                <div class="row">
+                     <strong class="pe">RENAVAM: </strong>
+                    <p class="pe" id="renavam">
+                        <%= cam.renavam%>
+                    </p>
+                </div>
+                
+                <div class="row">
+                     <strong class="pe">Carga Máxima: </strong>
+                    <p class="pe" id="cargaMax">
+                        <%= cam.cargaMax%> M³
+                    </p>
+                </div>
+                <div class="row col-12">
+                    <strong class="pe">Data da Revisão: </strong>
+                   <p class="pe" id="revisaoCam">
+                       <%= cam.revisao%>
+                   </p>
+               </div>
+            </div>
+            <a href="/editarCaminhao/<%= cam.id %>" class="btn btn-warning" tabindex="1" title="Editar">
+                Editar Caminhão
+                <i class="bi bi-pencil-fill"></i>
+            </a>
+        </div>
+    </div>
+    <footer>
+        <%- include('../../partials/footer'); %>
+    </footer>
+    <script>
+    </script>
+</body>
+
+</html>

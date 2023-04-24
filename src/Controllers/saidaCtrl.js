@@ -1,193 +1,197 @@
-const conn = require('../Config/database/db');
+import {SaidaDAO, Saida} from '../Models/saida/SaidaDAO.js'
+import * as al from './alertas/alertasSaida.js';
+import { NOAUTH } from './alertas/alertas.js';
 
-//----------------------------------------------------------ENTRADA-----------------------
-
-//--------------GETS JSON ALL ENTRADAS 
-exports.getAll = async (req, res)=> {
-  if(req.session.loggedin){
-    conn.query('SELECT * FROM tb_saida;', (error, results) => {
-      if (error) {
-        throw error;
-      } else {
-        data = JSON.stringify(results);
-         res.send(data);
-      }
-    })
-  }else{
-    res.redirect('/');
-  }
-}
-//-----------GET JSON ENTRADA EXPECÍFICO
-exports.get = (req, res) => {
-  if(req.session.loggedin){  
-    const id = req.params.id;
-    conn.query('SELECT * FROM tb_saida WHERE saida_id=?', [id], (error, results) => {
-      if (error) {
-        throw error;
-      } else {
-        data = JSON.stringify(results);
-        res.send(data);
-      }
-    })
-  }else{
-    res.redirect('/');
-  }
-}
-//-----------GET JSON TOTAL SAIDA
-exports.getTotal = (req, res) => {
-  if(req.session.loggedin){ 
-    conn.query("SELECT (SELECT SUM(total)  FROM tb_saida) AS 'SAIDA'", (error, results) => {
-      if (error) {
-        throw error;
-      } else {
-        data = JSON.stringify(results);
-        res.send(data);
-      }
-    })
-  }else{
-    res.redirect('/');
-  }
-}
+//----------------------------------------------------------SAÍDA-----------------------
 //----------------------------------------------------------CRUD
-
 //----------------------------SAVE
-exports.set = async (req,res)=>{
-  if(req.session.loggedin){
-    const nomeSaida = req.body.nomeSaida;
-    const categoriaSaida = req.body.categoriaSaida;
-    const dataSaida = req.body.dataSaida;
-    const obsSaida = req.body.obsSaida;
-    let vlr;
-    if(req.body.valorSaida <=0){
-      vlr = req.body.valorSaida;
+export const set = async (req, res) => {
+  let usrSess= {
+    nomeUsr: req.session.nomeUsr,
+    Usr: req.session.usuario}
+  if (req.session.loggedin) {
+    const nome = req.body.nomeS;
+    const cate = req.body.categoriaS;
+    const novaCate = req.body.novaCategoria;
+    const data = req.body.dataS;
+    const obs = req.body.obs;
+    let vlr
+    
+    if(req.body.valorS >0){
+      vlr = req.body.valorS *-1
     }else{
-      vlr = (-req.body.valorSaida)
+      vlr = req.body.valorS
+    } 
+    const valor = parseFloat(vlr)
+    let categoria
+    if (cate === "nova" && novaCate.trim() !== "") {
+      categoria = novaCate.trim()
+    }else{
+      categoria = cate
     }
-    const valorSaida = vlr;
-    conn.query('INSERT INTO tb_saida SET ?', {saida_nome:nomeSaida, saida_categoria:categoriaSaida,total:valorSaida, data:dataSaida, saida_obs:obsSaida}, (error, results) =>{
-      if(error){
-        console.log(error);
-        res.render('pages/saida/saidaCreate.ejs',{
-          nomeUsr: req.session.name,
-          classeUsr: req.session.classe,
-          alert:true,
-          aTitle:'ERRO - Saída não criado',
-          aText:'Não foi possível concluir criação de Saída com êxito!',
-          aIcon:'error',
-          scb: false,
-          timer: 2000,
-          rota:'/saidas'
-        });
-      }else { 
-        res.render('pages/saida/saidaCreate.ejs',{
-          nomeUsr: req.session.name,
-          classeUsr: req.session.classe,
-          alert:true,
-          aTitle:'Saída Criada',
-          aText:'Sucesso na criação de Saída!',
-          aIcon:'success',
-          scb: false,
-          timer: 2000,
-          rota:'/saidas'
-        });
-      }
-    })
-  }else{
-    res.redirect('/');
+    const sai = new Saida(null,nome,categoria,valor,obs,data)
+    try{
+      const saiDAO = new SaidaDAO()
+      await saiDAO.save(sai)
+      
+      res.render('pages/saida/saidaInfo.ejs',{
+        ...usrSess,
+        sai:sai,
+        ...al.SetSuccess
+      });
+    }catch(err) {
+      console.error(err);
+      res.render('pages/saida/saidaCreate.ejs',{...usrSess, ...al.SetError});
+    }
+  } else { 
+    res.render('pages/not-found.ejs',{...usrSess, ...NOAUTH});
   }
 }
 //-----------------------UPDATE
-exports.update = async (req,res)=>{
-  if(req.session.loggedin){
-    const id = req.body.id;
-    const nomeSaida = req.body.nomeSaida;
-    const categoriaSaida = req.body.categoriaSaida;
-    const dataSaida = req.body.dataSaida;
-    const obsSaida = req.body.obsSaida;
+export const update = async (req, res) => {
+  let usrSess= {
+    nomeUsr: req.session.nomeUsr,
+    Usr: req.session.usuario}
+  if (req.session.loggedin) {
+    const idS = parseInt(req.body.idS);
+    const nome = req.body.nomeS;
+    const cate = req.body.categoriaS;
+    const novaCate = req.body.novaCategoria;
+    const data = req.body.dataS;
+    const obs = req.body.obs;
     let vlr;
-    if(req.body.valorSaida <=0){
-      vlr = req.body.valorSaida;
+    if(req.body.valorS >0){
+      vlr = req.body.valorS *-1
     }else{
-      vlr = (-req.body.valorSaida)
+      vlr = req.body.valorS
     }
-    const valorSaida = vlr;
-    conn.query('UPDATE tb_saida SET ? WHERE saida_id = ?', [{saida_nome:nomeSaida, saida_categoria:categoriaSaida,total:valorSaida, data:dataSaida, saida_obs:obsSaida}, id], (error, results) =>{
-      if(error){
-        console.log(error);
-        res.render('pages/saida/saidaEdit.ejs',{
-          id:id,
-          nomeUsr: req.session.name,
-          classeUsr: req.session.classe,
-          alert:true,
-          aTitle:'ERRO - Atualização não realizada',
-          aText:'Atualização de Saída não foi concluída com êxito!',
-          aIcon:'error',
-          scb: false,
-          timer: 2000,
-          rota:'/saidas'
-        });
-      }else { 
-        res.render('pages/saida/saidaEdit.ejs',{
-          id:id,
-          nomeUsr: req.session.name,
-          classeUsr: req.session.classe,
-          alert:true,
-          aTitle:'Saída atualizado',
-          aText:'Sucesso na atualização de Saída!',
-          aIcon:'success',
-          scb: false,
-          timer: 2000,
-          rota:'/saidas'
-        });
-      }
-    })
-  } else{
-    res.redirect('/');
+    const valor = parseFloat(vlr)
+
+    
+    let categoria
+    if (cate === "nova" && novaCate.trim() !== "") {
+      categoria = novaCate.trim()
+    }else{
+      categoria = cate
+    }
+    const sai = new Saida(idS,nome,categoria,valor,obs,data)
+    try{
+      const saiDAO = new SaidaDAO()
+      await saiDAO.save(sai)
+      res.render('pages/saida/saidaInfo.ejs',{...usrSess, 
+        sai:sai,
+        ...al.UpdateSuccess(idS)
+      });
+    }catch(err) {
+      console.error(err);
+      res.render('pages/saida/saidaCreate.ejs',{...usrSess, ...al.UpdateError(idS)});
+    }
+  } else { 
+    res.render('pages/not-found.ejs',{...usrSess, ...NOAUTH});
   }
 }
 //----------------DELETE
-exports.delete =  (req, res) => {
-  if(req.session.loggedin && req.session.classe){
+export const del = async(req, res) => {
+  let usrSess= {
+    nomeUsr: req.session.nomeUsr,
+    Usr: req.session.usuario
+  }
+  if (req.session.loggedin  && req.session.usuario.classe =="admin") {
     const id = req.params.id;
-    conn.query('DELETE FROM tb_saida WHERE saida_id=?', [id], (error, results) => {
-      if (error) {
-        console.log(error);
-          res.render('pages/saida/saida.ejs',{
-            nomeUsr: req.session.name,
-            classeUsr: req.session.classe,
-            alert:true,
-            aTitle:'ERRO - Saída não deletada',
-            aText:'Não foi possível apagar Saída com êxito!',
-            aIcon:'error',
-            scb: false,
-            timer: 2000,
-            rota:'/saidas'
-          });
-      } else { 
-        res.render('pages/saida/saida.ejs',{
-          nomeUsr: req.session.name,
-          classeUsr: req.session.classe,
-          alert:true,
-          aTitle:'Saída Deletada',
-          aText:'Saída deletada com sucesso!',
-          aIcon:'success',
-          scb: false,
-          timer: 2000,
-          rota:'/saidas'
-        });
+    try{
+      const saiDAO = new SaidaDAO()
+      await saiDAO.delete(id)
+      res.render('pages/saida/saida.ejs',{...usrSess, ...al.DelSuccess});
+    }catch(err) {
+      console.error(err);
+      res.render('pages/saida/saida.ejs',{...usrSess, ...al.DelError});
+    }
+  } else { 
+    res.render('pages/not-found.ejs',{...usrSess, ...NOAUTH});
+  }
+}
+//-----------------------------------------------------GETS JSON ALL Saidas 
+export const getAll = async (req, res) => {
+  if (req.session.loggedin) {
+    const saiDAO = new SaidaDAO();
+    try {
+      const saidas = await saiDAO.getAll();
+      if (saidas.length > 0) {
+        res.json(saidas)
       }
-    })
-  }else { 
-    res.render('pages/saida/saida.ejs',{
-        nomeUsr: req.session.name,
-        classeUsr: req.session.classe,
-        alert:true,
-        aTitle:'Você não tem Permissão',
-        aText:'Usuário sem permissão para o solicitar acesso ao recurso. Contate um administrador',
-        aIcon:'error',
-        scb: false,
-        timer: 3000,
-        rota:'/saidas'
-    });
+    } catch (error) {
+        res.json({ message: `Problema de consulta no banco, ${error}` })
+    }
+  } else {
+    let usrSess = {
+      nomeUsr: req.session.nomeUsr,
+      Usr: req.session.usuario
+    }
+    res.render('pages/not-found.ejs', { ...usrSess, ...NOAUTH });
+  }
+}
+//--------------GETS JSON saidas BY ID
+export const getById = async (req, res) => {
+  if (req.session.loggedin) {
+    const id = req.params.id;
+    const saiDAO = new SaidaDAO();
+    try {
+      const sai = await saiDAO.getById(id);
+      if (sai.length > 0) {
+        res.json(sai)
+      } 
+    } catch (error) {
+        res.json({ message: `Problema de consulta no banco, ${err}` });
+    }
+  } else {
+    let usrSess = {
+      nomeUsr: req.session.nomeUsr,
+      Usr: req.session.usuario
+    }
+    res.render('pages/not-found.ejs', { ...usrSess, ...NOAUTH });
+  }
+}
+//-----------------------GET JSON saidas ANUAL
+export const getByY = async (req, res) => {
+  if (req.session.loggedin) {
+    const ano = req.params.ano;
+    const saiDAO = new SaidaDAO();
+    try {
+      const sai = await saiDAO.getEByY(ano);
+      if (sai.length > 0) {
+        res.json(sai)
+      }
+    } catch (error) {
+      res.json({ message: `${error}` })
+    }
+  } else {
+    let usrSess = {
+      nomeUsr: req.session.nomeUsr,
+      Usr: req.session.usuario
+    }
+    res.render('pages/not-found.ejs', { ...usrSess, ...NOAUTH });
+  }
+}
+//-----------GET JSON saidas ANO MÊS
+export const getByYM = async (req, res) => {
+  if (req.session.loggedin) {
+    const anoMes = req.params.anoMes;
+    const ano = anoMes.substr(0, 4); //ou slice(0,4)
+    const mes = anoMes.substr(4, 6);
+    const saiDAO = new SaidaDAO();
+    try {
+      const sai = await saiDAO.getEByYM(ano, mes);
+      if (sai.length > 0) {
+          res.json(sai)
+      }
+    } catch (error) {
+      res.json({ message: ` ${error}` })
+    }
+  } else {
+    let usrSess = {
+      nomeUsr: req.session.nomeUsr,
+      Usr: req.session.usuario
+    }
+    res.render('pages/not-found.ejs', { ...usrSess, ...NOAUTH });
   }
 }

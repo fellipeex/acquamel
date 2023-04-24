@@ -1,0 +1,112 @@
+<html lang="pt-br">
+
+<head>
+    <title>Index</title>
+    <!-- Required meta tags -->
+    <%- include('../../partials/head'); %>
+</head>
+
+<body>
+    <header>
+        <%- include('../../partials/header'),{nomeUsr:nomeUsr, Usr:Usr}; %>
+    </header>
+    <div class="container">
+        <div class="card border-secondary mb-1">
+            <div class="bg-deg-primary mikk card-header rounded-top text-white px-3 ">
+                <div class=" col-1">
+                    <a href="/usuarios" class="btn-top btn btn-light" tabindex="1" title="Voltar"
+                        style="font-size: 1.5rem;">
+                        <i class="bi bi-arrow-return-left"></i>
+                    </a>
+                </div>
+                <div class="t-titulo col-11 ">
+                    <h2 id="titulo" class="text-light sombra-dark">
+                        <i class="bi bi-person-square"> Novo Usuário</i>
+                    </h2>
+                </div>
+            </div>
+            <div class="card-body">
+                <form action="/api/setUsr" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <strong for="nome" class="form-label">Nome do Usuário:</strong>
+                        <input type="text" class="form-control" id="nome" name="nome" tabindex="2" required>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-12 col-sm-7">
+                            <strong for="email" class="form-label">Email:</strong>
+                            <input type="text" class="form-control" id="email" name="email" tabindex="3" required>
+                        </div>
+
+                        <div class="mb-3 col-12 col-sm-4">
+                            <strong for="classe" class="form-label">Classe:</strong>
+                            <select id="classe" name="classe" class="form-select" tabindex="4" required>
+                                <option value="admin">Admin</option>
+                                <option value="comum">Comum</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-12 col-sm-5">
+                            <strong for="senha" class="form-label">Senha:</strong>
+                            <input type="password" class="form-control" id="senha" name="senha" tabindex="5" required>
+                            <input type="checkbox" id="verSenha" onchange="mostrarSenha()">
+                            <label class="form-check-label" for="verSenha">Ver senha</label>
+                        </div>
+                        <div class="mb-3 col-12 col-sm-5">
+                            <strong for="senha" class="form-label">Confirme a senha:</strong>
+                            <input type="password" class="form-control" id="confirmacaoSenha" name="confirmacaoSenha"
+                                tabindex="6" required><span id="senhaError" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <strong for="foto" class="form-label">Foto:</strong>
+                        <input type="file" class="form-control" id="foto" name="foto" tabindex="7">
+                    </div>
+                    <div class="mb-3 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary" tabindex="8" title="Salvar">
+                            <i class="bi bi-device-hdd-fill" style="font-size: 3.0rem;"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include('../../partials/footerCreate'); %>
+        <footer>
+            <%- include('../../partials/footer'); %>
+        </footer>
+        <script>
+            const senha = document.getElementById('senha');
+            const confirmacaoSenha = document.getElementById('confirmacaoSenha');
+            const senhaError = document.getElementById('senhaError');
+
+            confirmacaoSenha.addEventListener('input', function () {
+                if (senha.value !== confirmacaoSenha.value) {
+                    senhaError.textContent = 'As senhas não correspondem';
+                } else {
+                    senhaError.textContent = '';
+                }
+            });
+            senha.addEventListener('input', function () {
+                if (senha.value !== confirmacaoSenha.value) {
+                    senhaError.textContent = 'As senhas não correspondem';
+                } else {
+                    senhaError.textContent = '';
+                }
+            });
+
+            function mostrarSenha() {
+                const senha = document.getElementById('senha');
+                const verSenha = document.getElementById('verSenha');
+
+                if (verSenha.checked) {
+                    senha.type = 'text';
+                } else {
+                    senha.type = 'password';
+                }
+            }
+        </script>
+
+</body>
+
+</html>

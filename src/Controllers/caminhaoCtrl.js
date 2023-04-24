@@ -1,166 +1,122 @@
-const conn = require('../Config/database/db');
+import {CaminhaoDAO, Caminhao} from '../Models/caminhao/CaminhaoDAO.js'
+import * as al from './alertas/alertasCaminhao.js';
+import { NOAUTH } from './alertas/alertas.js';
 
 //----------------------------------------------------------CAMINHÃO-----------------------
-
-//--------------GETS JSON ALL CAMIHÕES 
-exports.getAll = async (req, res)=> {
-  if(req.session.loggedin ){
-    conn.query('SELECT * FROM tb_caminhao;', (error, results) => {
-      if (error) {
-        throw error;
-      } else {
-        data = JSON.stringify(results);
-         res.send(data);
-      }
-    })
-  }else{
-    res.redirect('/');
-  }
-}
-//-----------GET JSON CAMINHÃO EXPECÍFICO
-exports.get = (req, res) => {
-  if(req.session.loggedin ){  
-    const id = req.params.id;
-    conn.query('SELECT * FROM tb_caminhao WHERE cam_id=?', [id], (error, results) => {
-      if (error) {
-        throw error;
-      } else {
-        data = JSON.stringify(results);
-        res.send(data);
-      }
-      
-    })
-  }else{
-    res.redirect('/');
-  }
-}
 //----------------------------------------------------------CRUD
 //----------------------------SAVE
-exports.set = async (req,res)=>{
-  if(req.session.loggedin ){
-    const nomeCam = req.body.nomeCam;
-    const placaCam = req.body.placaCam;
-    const tamanhoCam = req.body.tamanhoCam;
-    const anoCam = req.body.anoCam;
+export const set = async (req, res) => {
+  let usrSess= {
+    nomeUsr: req.session.nomeUsr,
+    Usr: req.session.usuario}
+  if (req.session.loggedin) {
+    const placa = req.body.placa;
+    const nome = req.body.nome;
+    const ano = req.body.ano;
     const renavam = req.body.renavam;
-    conn.query('INSERT INTO tb_caminhao SET ?', {cam_nome:nomeCam, cam_placa:placaCam, cam_tamanho:tamanhoCam, cam_ano:anoCam, cam_renavam:renavam}, (error, results) =>{
-      if(error){
-        console.log(error);
-        res.render('pages/caminhao/camCreate.ejs',{
-          nomeUsr: req.session.name,
-          classeUsr: req.session.classe,
-          alert:true,
-          aTitle:'ERRO - Caminhão não criado',
-          aText:'Não foi possível concluir a criação de Caminhão com êxito!',
-          aIcon:'error',
-          scb: false,
-          timer: 2000,
-          rota:'/caminhoes'
-        });
-      }else { 
-        res.render('pages/caminhao/camCreate.ejs',{
-          nomeUsr: req.session.name,
-          classeUsr: req.session.classe,
-          alert:true,
-          aTitle:'Caminhão Criado',
-          aText:'Sucesso na criação de Caminhão!',
-          aIcon:'success',
-          scb: false,
-          timer: 2000,
-          rota:'/caminhoes'
-        });
-      }
-    })
-  }else{
-      res.redirect('/');
+    const marca = req.body.marca;
+    const revisao = req.body.revisao;
+    const cargaMax = req.body.cargaMax;
+    const cam = new Caminhao(null, placa, nome, ano, renavam, marca, revisao,cargaMax)
+    try{
+      const camDAO = new CaminhaoDAO()
+      await camDAO.save(cam)
+      res.render('pages/caminhao/camCreate.ejs',{...usrSess, ...al.SetSuccess});
+    }catch(err) {
+      console.error(err);
+      res.render('pages/caminhao/camCreate.ejs',{...usrSess, ...al.SetError});
+    }
+  } else { 
+    res.render('pages/not-found.ejs',{...usrSess, ...NOAUTH});
   }
 }
 //-----------------------UPDATE
-exports.update = async (req,res)=>{
-  if(req.session.loggedin ){
-    const id = req.body.id
-    const nomeCam = req.body.nomeCam;
-    const placaCam = req.body.placaCam;
-    const tamanhoCam = req.body.tamanhoCam;
-    const anoCam = req.body.anoCam;
+export const update = async (req, res) => {
+  let usrSess= {
+    nomeUsr: req.session.nomeUsr,
+    Usr: req.session.usuario}
+  if (req.session.loggedin) {
+    const id = req.body.id;
+    const placa = req.body.placa;
+    const nome = req.body.nome;
+    const ano = req.body.ano;
     const renavam = req.body.renavam;
-    conn.query('UPDATE tb_caminhao SET ? WHERE cam_id = ?', [{cam_nome:nomeCam, cam_placa:placaCam, cam_tamanho:tamanhoCam, cam_ano:anoCam, cam_renavam:renavam}, id], (error, results) =>{
-      if(error){
-        console.log(error);
-        res.render('pages/caminhao/camEdit.ejs',{
-            id:id,
-            nomeUsr: req.session.name,
-            classeUsr: req.session.classe,
-            alert:true,
-            aTitle:'ERRO - Atualização não realizada',
-            aText:'Atualização de Caminhão não foi concluída com êxito!',
-            aIcon:'error',
-            scb: false,
-            timer: 2000,
-            rota:'/caminhoes'
-        });
-      }else { 
-        res.render('pages/caminhao/camEdit.ejs',{
-            id:id,
-            nomeUsr: req.session.name,
-            classeUsr: req.session.classe,
-            alert:true,
-            aTitle:'Caminhão atualizado',
-            aText:'Sucesso na atualização de Caminhão!',
-            aIcon:'success',
-            scb: false,
-            timer: 2000,
-            rota:'/caminhoes'
-        });
-      }
-    })
-  } else{
-    res.redirect('/');
+    const marca = req.body.marca;
+    const revisao = req.body.revisao;
+    const cargaMax = req.body.cargaMax;
+    const cam = new Caminhao(id, placa, nome, ano, renavam, marca, revisao,cargaMax)
+    try{
+      const camDAO = new CaminhaoDAO()
+      await camDAO.save(cam)
+      res.render('pages/caminhao/camInfo.ejs',{...usrSess,
+        cam:cam,
+         ...al.UpdateSuccess(id)});
+    }catch(err) {
+      console.error(err);
+      res.render('pages/caminhao/camCreate.ejs',{...usrSess, ...al.UpdateError(id)});
+    }
+  } else { 
+    res.render('pages/not-found.ejs',{...usrSess, ...NOAUTH});
   }
 }
 //----------------DELETE
-exports.delete =  (req, res) => {
-  if(req.session.loggedin && req.session.classe){
+export const del = async(req, res) => {
+  let usrSess= {
+    nomeUsr: req.session.nomeUsr,
+    Usr: req.session.usuario
+  }
+  if (req.session.loggedin && req.session.usuario.classe =="admin") {
     const id = req.params.id;
-    conn.query('DELETE FROM tb_caminhao WHERE cam_id=?', [id], (error, results) => {
-      if (error) {
-        console.log(error);
-          res.render('pages/caminhao/caminhao.ejs',{
-            nomeUsr: req.session.name,
-            classeUsr: req.session.classe,
-            alert:true,
-            aTitle:'ERRO - Caminhão não deletada',
-            aText:'Não foi possível apagar Caminhão com êxito!',
-            aIcon:'error',
-            scb: false,
-            timer: 2000,
-            rota:'/caminhoes'
-          });
-      } else { 
-        res.render('pages/caminhao/caminhao.ejs',{
-          nomeUsr: req.session.name,
-          classeUsr: req.session.classe,
-          alert:true,
-          aTitle:'Caminhão Deletada',
-          aText:'Caminhão deletada com sucesso!',
-          aIcon:'success',
-          scb: false,
-          timer: 2000,
-          rota:'/caminhoes'
-        });
+    try{
+      const camDAO = new CaminhaoDAO()
+      await camDAO.delete(id)
+      res.render('pages/caminhao/caminho.ejs',{...usrSess, ...al.DelSuccess});
+    }catch(err) {
+      console.error(err);
+      res.render('pages/caminhao/caminhao.ejs',{...usrSess, ...al.DelError});
+    }
+  } else { 
+    res.render('pages/not-found.ejs',{...usrSess, ...NOAUTH});
+  }
+}
+//-----------------------------------------------------GETS JSON ALL Caminhões 
+export const getAll = async (req, res) => {
+  if (req.session.loggedin) {
+    const camDAO = new CaminhaoDAO();
+    try {
+      const caminhoes = await camDAO.getAll();
+      if (caminhoes.length > 0) {
+        res.json(caminhoes)
       }
-    })
-  }else { 
-    res.render('pages/caminhao/caminhao.ejs',{
-        nomeUsr: req.session.name,
-        classeUsr: req.session.classe,
-        alert:true,
-        aTitle:'Você não tem Permissão',
-        aText:'Usuário sem permissão para o solicitar acesso ao recurso. Contate um administrador',
-        aIcon:'error',
-        scb: false,
-        timer: 3000,
-        rota:'/caminhoes'
-    });
+    } catch (error) {
+        res.json({ message: `Problema de consulta no banco, ${error}` })
+    }
+  } else {
+    let usrSess = {
+      nomeUsr: req.session.nomeUsr,
+      Usr: req.session.usuario
+    }
+    res.render('pages/not-found.ejs', { ...usrSess, ...NOAUTH });
+  }
+}
+//--------------GETS JSON Caminhão BY ID
+export const getById = async (req, res) => {
+  if (req.session.loggedin) {
+    const id = req.params.id;
+    const camDAO = new CaminhaoDAO();
+    try {
+      const cam = await camDAO.getById(id);
+      if (cam.length > 0) {
+        res.json(cam)
+      } 
+    } catch (error) {
+        res.json({ message: `Problema de consulta no banco, ${err}` });
+    }
+  } else {
+    let usrSess = {
+      nomeUsr: req.session.nomeUsr,
+      Usr: req.session.usuario
+    }
+    res.render('pages/not-found.ejs', { ...usrSess, ...NOAUTH });
   }
 }

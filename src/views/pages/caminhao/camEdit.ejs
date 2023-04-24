@@ -1,0 +1,92 @@
+<html lang="pt-br">
+
+<head>
+    <title>Editar Caminhão</title>
+    <%- include('../../partials/head'); %>
+</head>
+
+<body onload="iniciar()">
+    <header>
+    </header>
+    <div class="container ">
+        <div class="card border-secondary">
+            <div class="bg-deg-warning mikk card-header rounded-top px-3 ">
+                <div class=" col-1">
+                    <a href="/infosCaminhao/<%= cam.id %>" class="btn-top btn btn-light" tabindex="1" title="Voltar">
+                        <i class="bi bi-arrow-return-left" style="font-size: 1.5rem"></i>
+                    </a>
+                </div>
+                <div class="t-titulo col-11 ">
+                    <h2 id="titulo" class='text-dark sombra-light'>
+                        <i class="bi bi-truck mb-1"> Editar Caminhão <%=cam.id%></i>
+                    </h2>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <form action="/api/updateCam" method="POST">
+                    <input type="text" name="id" id="id" hidden value="<%=cam.id%>">
+                    <div class="formEdit">
+                        <div class="mb-3 col-sm-11 col-12">
+                            <strong for="caminhao" class="form-label">Nome</strong>
+                            <input type="text" class="form-control" id="nome" name="nome" tabindex="2"
+                                value="<%=cam.nome%>" required>
+                        </div>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-md-5 col-sm-5 col-6">
+                            <strong for="caminhao" class="form-label">Placa</strong>
+                            <input type="text" class="form-control" id="placa" name="placa" tabindex="3"
+                                value="<%= cam.placa%>" required>
+                        </div>
+                        <div class="mb-3 col-md-5 col-sm-5 col-5">
+                            <strong for="caminhao" class="form-label">Ano</strong>
+                            <input type="number" class="form-control" id="ano" name="ano" tabindex="4" min="1980"
+                                value="<%= cam.ano%>" required>
+                        </div>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-md-5 col-sm-5 col-12">
+                            <strong for="caminhao" class="form-label">Marca</strong>
+                            <input type="text" class="form-control" id="marca" name="marca" tabindex="5"
+                                value="<%= cam.marca %>" required>
+                        </div>
+                        <div class="mb-3 col-md-5 col-sm-5 col-12">
+                            <strong for="caminhao" class="form-label">RENAVAM</strong>
+                            <input type="text" class="form-control" id="renavam" name="renavam" tabindex="6"
+                                value="<%= cam.renavam %>" required>
+                        </div>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-md-3 col-sm-4 col-11">
+                            <strong for="caminhao" class="form-label">Data da revisão</strong>
+                            <input type="date" class="form-control" id="revisao" name="revisao" tabindex="7" min="2"
+                                value="<%= cam.getDataUs() %>" required>
+                        </div>
+                        <div class="mb-3 col-md-3 col-sm-4 col-11">
+                            <strong for="caminhao" class="form-label">Carga Máxima (M³)</strong>
+                            <input type="number" class="form-control" id="cargaMax" name="cargaMax" tabindex="8" min="2"
+                                step=".5" value="<%= cam.cargaMax %>" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-warning" tabindex="9" title="Salvar">
+                            <i class="bi bi-device-hdd-fill" style="font-size: 3.0rem;"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include('../../partials/footerCreate'); %>
+    <footer>
+        <%- include('../../partials/footer'); %>
+    </footer>
+    <script>
+        function iniciar() {
+        };   
+    </script>
+
+</body>
+
+</html>

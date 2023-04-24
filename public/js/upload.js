@@ -1,5 +1,5 @@
-const multer = require('multer'); // para lidar com o upload de arquivos
-const path = require('path');
+import multer  from 'multer'; // para lidar com o upload de arquivos
+import path from 'path';
 
 // configurar o armazenamento das imagens
 const storage = multer.diskStorage({
@@ -16,4 +16,4 @@ const storage = multer.diskStorage({
     storage: storage ,
     limits: { fileSize: 1024 * 1024 * 5 }, // limitar o tamanho do arquivo a 5MB
   }); 
-  module.exports = { upload }
+  export default upload

@@ -1,0 +1,15 @@
+<% if(typeof alert != "undefined"){ %>
+    <script>
+        ( async function() {
+         await Swal.fire({
+          title: '<%=aTitle%>',
+          text: '<%=aText%>',
+          icon: '<%=aIcon%>',
+          showConfirmButton: '<%=scb%>',
+          timer: '<%=timer%>'
+        });
+        window.location='<%=rota%>';
+      })();
+    </script>
+<% } %>
+

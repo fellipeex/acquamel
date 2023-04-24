@@ -1,0 +1,87 @@
+<html lang="pt-br">
+
+<head>
+    <title>Criar Cliente</title>
+    <!-- Required meta tags -->
+    <%- include('../../partials/head'); %>
+</head>
+
+<body>
+    <header>
+        <%- include('../../partials/header'),{nomeUsr:nomeUsr}; %>
+    </header>
+    <div class="container ">
+        <div class="card border-secondary">
+            <div class="bg-deg-info mikk card-header rounded-top text-white px-3 ">
+                <div class=" col-1">
+                    <a href="/clientes" class="btn-top btn btn-light" tabindex="1" title="Voltar">
+                        <i class="bi bi-arrow-return-left" style="font-size: 1.5rem"></i>
+                    </a>
+                </div>
+                <div class="t-titulo col-11 ">
+                    <h2 id="titulo" class='text-dark sombra-light'>
+                        <i class="bi bi-people-fill"> Novo Cliente</i>
+                    </h2>
+                </div>
+            </div>
+            <div class="card-body">
+                <form action="/setCli" method="POST">
+                    <div class="mb-3">
+                        <strong for="user" class="form-label">Nome Cliente</strong>
+                        <input type="text" class="form-control" id="nomeCli" name="nomeCli" tabindex="2">
+                    </div>
+                    <div class="mb-3">
+                        <strong for="user" class="form-label">Apelido</strong>
+                        <input type="text" class="form-control" id="apelidoCli" name="apelidoCli" tabindex="3">
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-lg-5 ">
+                            <strong for="user" class="form-label">CPF</strong>
+                            <input type="text" class="form-control" id="cpfCli" name="cpfCli" tabindex="4">
+                        </div>
+                        <div class="mb-3 col-lg-5">
+                            <strong for="user" class="form-label">CNPJ</strong>
+                            <input type="text" class="form-control" id="cnpjCli" name="cnpjCli" tabindex="5">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <strong for="user" class="form-label">Endereco</strong>
+                        <input type="text" class="form-control" id="endCli" name="endCli" tabindex="6">
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-12 col-sm-7 ">
+                            <strong for="user" class="form-label">Bairro</strong>
+                            <input type="text" class="form-control" id="bairroCli" name="bairroCli" tabindex="7">
+                        </div>
+                        <div class="mb-3 col-sm-4 ">
+                            <strong for="user" class="form-label">CEP</strong>
+                            <input type="text" class="form-control" id="cepCli" name="cepCli" tabindex="8">
+                        </div>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-lg-4 ">
+                            <strong for="user" class="form-label">Telefone</strong>
+                            <input type="text" class="form-control" id="telefoneCli" name="telefoneCli" tabindex="9">
+                        </div>
+                        <div class="mb-3 col-lg-4 ">
+                            <strong for="user" class="form-label">Celular</strong>
+                            <input type="text" class="form-control" id="celularCli" name="celularCli" tabindex="10">
+                        </div>
+                    </div>
+                    <div class="mb-3 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-info" tabindex="11" title="Salvar">
+                            <i class="bi bi-device-hdd-fill" style="font-size: 3.0rem;"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include('../../partials/footerCreate'); %>
+        <footer>
+            <%- include('../../partials/footer'); %>
+        </footer>
+
+</body>
+
+</html>

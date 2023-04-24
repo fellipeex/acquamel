@@ -1,0 +1,100 @@
+<html lang="pt-br">
+
+<head>
+    <title>Editar Cliente</title>
+    <%- include('../../partials/head'); %>
+</head>
+
+<body>
+    <header>
+    </header>
+
+    <div class="container ">
+        <div class="card border-secondary">
+            <div class="bg-deg-info mikk card-header rounded-top text-white px-3 ">
+                <div class=" col-1">
+                    <a href="/infosCliente/<%= cli.id %>" class="btn-top btn btn-light" tabindex="1" title="Voltar">
+                        <i class="bi bi-arrow-return-left" style="font-size: 1.5rem"></i>
+                    </a>
+                </div>
+                <div class="t-titulo col-11 ">
+                    <h2 id="titulo" class='text-dark sombra-light'>
+                        <i class="bi bi-people-fill"> Editar Cliente <%=cli.id%></i>
+                    </h2>
+                </div>
+            </div>
+            <div class="card-body">
+                <form action="/api/updateCli" method="POST">
+                    <input type="number" name="id" id="id" value="<%= cli.id%>" hidden>
+                    <div class="mb-3">
+                        <strong for="user" class="form-label">Nome Cliente</strong>
+                        <input type="text" class="form-control" id="nome" name="nome" tabindex="2"
+                            value="<%= cli.nome%>" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <strong for="user" class="form-label">Apelido</strong>
+                        <input type="text" class="form-control" id="apelido" name="apelido" tabindex="3"
+                            value="<%= cli.apelido%>" required>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-lg-5 ">
+                            <strong for="user" class="form-label">CPF</strong>
+                            <input type="text" class="form-control" id="cpf" name="cpf" tabindex="4"
+                                value="<%= cli.cpf%>" required>
+                        </div>
+                        <div class="mb-3 col-lg-5 ">
+                            <strong for="user" class="form-label">CNPJ</strong>
+                            <input type="text" class="form-control" id="cnpj" name="cnpj" tabindex="5"
+                                value="<%= cli.cnpj%>" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <strong for="user" class="form-label">Endereco</strong>
+                        <input type="text" class="form-control" id="endereco" name="endereco" tabindex="6"
+                            value="<%= cli.endereco%>" required>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-12 col-sm-7 ">
+                            <strong for="user" class="form-label">Bairro</strong>
+                            <input type="text" class="form-control" id="bairro" name="bairro" tabindex="7"
+                                value="<%= cli.bairro%>" required>
+                        </div>
+                        <div class="mb-3 col-sm-4 ">
+                            <strong for="user" class="form-label">CEP</strong>
+                            <input type="text" class="form-control" id="cep" name="cep" tabindex="8"
+                                value="<%= cli.cep%>" required>
+                        </div>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-lg-4 ">
+                            <strong for="user" class="form-label">Telefone</strong>
+                            <input type="text" class="form-control" id="telefone" name="telefone" tabindex="9"
+                                value="<%= cli.telefone%>" required>
+                        </div>
+                        <div class="mb-3 col-lg-4 ">
+                            <strong for="user" class="form-label">Celular</strong>
+                            <input type="text" class="form-control" id="celular" name="celular" tabindex="10"
+                                value="<%= cli.celular%>" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-info" tabindex="11" title="Salvar">
+                            <i class="bi bi-device-hdd-fill" style="font-size: 3.0rem;"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include('../../partials/footerCreate'); %>
+    <footer>
+        <%- include('../../partials/footer'); %>
+    </footer>
+    <script>
+        function iniciar() { }
+    </script>
+
+</body>
+
+</html>

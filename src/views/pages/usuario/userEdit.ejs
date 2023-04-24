@@ -1,0 +1,144 @@
+<html lang="pt-br">
+
+<head>
+    <title>Editar Usuário</title>
+    <%- include('../../partials/head'); %>
+</head>
+
+<body>
+    <header>
+    </header>
+    <div class="container">
+        <div class="card border-secondary">
+            <div class="bg-deg-primary mikk card-header rounded-top text-white px-3 ">
+                <div class=" col-1">
+                    <a href="/infosUsuario/<%= usu.id %>" class="btn-top btn btn-light" tabindex="11" title="Voltar"
+                        style="font-size: 1rem;">
+                        <i class="bi bi-arrow-return-left" style="font-size: 1.5rem;"></i>
+                    </a>
+                </div>
+                <div class="t-titulo col-11 ">
+                    <h2 id="titulo" class="text-light sombra-dark">
+                        <i class="bi bi-person-square"> Editar Usuário <%= usu.id %></i>
+                    </h2>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="mb-3 centralizar">
+                    <img class="pic-user row" src="<%=usu.foto%>">
+                    <div id="ac" class="ac" onclick="acaoBtn('ac');">
+                        <button type="button" class="btn btn-primary" onclick="trocarFoto()">
+                            <i class="bi bi-camera"></i> Trocar Foto
+                        </button>
+                    </div>
+                    <%- include('../../partials/corteFoto'); %>
+                </div>
+                <form action="/api/updateUsr" method="POST">
+                    <input type="text" name="id" id="id" value="<%=usu.id%>" hidden>
+
+                    <!-- <div class="popup"></div> 
+                        <input type="file" class="form-control" id="foto" name="foto" value="<%=usu.foto%>" tabindex="1" >-->
+
+                    <div class="mb-3">
+                        <label for="user" class="form-label">Usuário</label>
+                        <input type="text" class="form-control" id="nome" name="nome" value="<%=usu.nome%>" tabindex="2"
+                            required>
+                    </div>
+                    <div class="formEdit">
+                        <div class="mb-3 col-12 col-sm-6">
+                            <label for="user" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="email" name="email" value="<%=usu.email%>"
+                                tabindex="3" required>
+                        </div>
+
+                        <div class="mb-3 col-12 col-sm-5">
+                            <label for="user" class="form-label">Classe</label>
+                            <select id="classe" name="classe" class="form-select" tabindex="4">
+                                <option value="admin" <% if (usu.classe==='admin' ) { %>selected<% } %>>Admin</option>
+                                <option value="comum" <% if (usu.classe==='comum' ) { %>selected<% } %>>Comum</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="formEdit mb-4">
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                            onclick="tsdua('<%= usu.email%>')" data-target="#cropModal" tabindex="5" title="trocar senha">
+                            <i class="bi bi-unlock"></i> Trocar Senha
+                            
+                        </button>
+                    </div>
+
+                    <div class="mb-3 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary" tabindex="12" title="Salvar">
+                            <i class="bi bi-device-hdd-fill" style="font-size: 3.0rem;"></i>
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include('../../partials/footerCreate'); %>
+    <footer>
+        <%- include('../../partials/footer'); %>
+    </footer>
+    <script>
+        function acaoBtn(id) {
+            let action = document.getElementById(id);
+            let bod = document.body;
+            let lis = function () {/* 
+          bod.addEventListener('click', function () { */
+                action.classList.toggle('active');
+                bod.removeEventListener('click', lis);
+
+            };
+            if (action.classList.contains('active')) {
+                action.classList.remove('active');
+                bod.removeEventListener('click', lis)
+            } else {
+                bod.addEventListener('click', lis);
+            }
+        };
+        function tsdua(email) {
+            Swal.fire({
+                title: 'Trocar Senha do Usuário ' + email + '?',
+                html: '<form id="formTsdua" action="/api/WEPPA/' + email + '" method="POST">' +
+                    '<div class="mb-3"> <strong for="user" class="pe">Digite sua Senha</strong>' +
+                    '<input type="password" class="form-control" id="senhaAdmin" name="senhaAdmin" tabindex="1" required></div>' +
+                    '<div class="mb-3"><strong for="user" class="pe">Nova Senha</strong>' +
+                    '<input type="text" class="form-control" id="novaSenha" name="novaSenha" tabindex="2" required></div></form>'
+                ,
+                icon: 'warning',
+                showDenyButton: true,
+                denyButtonColor: '#8d8d8d',
+                denyButtonText: 'Cancelar',
+                confirmButtonColor: '#136EF0',
+                confirmButtonText: 'Trocar',
+                preConfirm: () => {
+                    const form = document.getElementById('formTsdua');
+                    form.submit();
+                }
+            })
+        }
+        function trocarFoto() {
+            Swal.fire({
+                title: 'Trocar foto do Usuário ' + '<%= usu.id %>' + '?',
+                html: '<form id="formFoto" action="/api/trocarFoto/<%= usu.id %>" method="POST" enctype="multipart/form-data">' +
+                    '<input type="file" class="form-control" id="foto" name="foto">',
+                icon: 'warning',
+                showDenyButton: true,
+                denyButtonColor: '#8d8d8d',
+                denyButtonText: 'Cancelar',
+                confirmButtonColor: '#136EF0',
+                confirmButtonText: 'Trocar',
+                preConfirm: () => {
+                    const form = document.getElementById('formFoto');
+                    form.submit();
+                }
+            })
+        }
+        
+    </script>
+
+</body>
+
+</html>

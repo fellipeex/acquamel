@@ -1,0 +1,89 @@
+<!-- Sidebar -->
+<nav class="navbar navbar-inverse fixed-top admin" id="sidebar-wrapper" role="navigation">
+  <ul class="nav sidebar-nav admin">
+    <div class="sidebar-header">
+      <div class="sidebar-brand admin">
+        <a href="/">Acquamel</a>
+      </div>
+    </div>
+    <li class="dropdown" id="dropdownUsr">
+      <a class="text-decoration-none dropdown-toggle" id="dropdownUsr" data-bs-toggle="dropdown" aria-expanded="false">
+        <img class="foto-lista m-1" src="<%= Usr.foto %>" height="90px">
+        <%= nomeUsr %> <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu animated fadeInLeft admin" role="menu">
+        <div class="dropdown-header admin">
+          <%= Usr.classe%>
+        </div>
+        <li><a class="dropdown-item" href="#">
+            <i class="bi bi-person-fill-gear mb-1 sm-ml-auto" style="font-size: 1.5rem;"></i>
+            Configurações</a></li>
+        <li><a class="dropdown-item" href="/usuarios">
+            <i class="bi bi-person-vcard" style="font-size: 1.5rem;"></i>
+            Usuários</a></li>
+        <hr class="dropdown-divider bg-white">
+        <li><a class="dropdown-item" href="/logout">
+            <i class="bi bi-box-arrow-right"></i>
+            Sair</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="/">
+        <i class="bi bi-speedometer mb-1 sm-ml-auto" style="font-size: 1.5rem; "></i>
+        Dashboard</a>
+    </li>
+    <li>
+      <a href="/entradas">
+        <i class="bi bi-cash-coin mb-1 sm-ml-auto" style="font-size :1.5rem; "></i>
+        Entradas</a>
+    </li>
+    <li><a href="/saidas">
+        <i class="bi bi-box-arrow-up mb-1 sm-ml-auto" style="font-size: 1.5rem; "></i>
+        Saídas</a>
+    </li>
+    <li><a href="/caminhoes">
+        <i class="bi bi-truck mb-1 lg-mx-auto sm-ml-auto" style="font-size: 1.5rem;"></i>
+        Caminhões</a></li>
+    </li>
+    <li><a href="/clientes">
+        <i class="bi bi-people-fill lg-mx-auto sm-ml-auto" style="font-size: 1.5rem;"></i>
+        Clientes</a></li>
+    </li>
+    <li><a href="/funcionarios">
+        <i class="bi bi-person-badge lg-mx-auto sm-ml-auto" style="font-size: 1.5rem;"></i>
+        Funcionarios</a></li>
+    </li>
+    <li class="dropdown" id="">
+      <a class="text-decoration dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-briefcase-fill mb-1 lg-mx-auto sm-ml-auto" style="font-size: 1.5rem;"></i> Serviços <span
+          class="caret"></span></a>
+      <ul class="dropdown-menu animated fadeInLeft" role="menu">
+        <div class="dropdown-header">Serviços HU3</div>
+        <li><a class="dropdown-item" href="/">
+            <i class="bi bi-truck mb-1 lg-mx-auto sm-ml-auto" style="font-size: 1.5rem;"></i>
+            Aplicações Web</a></li>
+        <li><a class="dropdown-item" href="/">
+            <i class="bi bi-people-fill lg-mx-auto sm-ml-auto" style="font-size: 1.5rem;"></i>
+            UX/UI</a></li>
+        <li><a class="dropdown-item" href="/">
+            <i class="bi bi-person-badge lg-mx-auto sm-ml-auto" style="font-size: 1.5rem;"></i>
+            Ecommerce</a></li>
+        <li><a class="dropdown-item" href="/">
+            <i class="bi bi-truck mb-1 lg-mx-auto sm-ml-auto" style="font-size: 1.5rem;"></i>
+            Suporte técnico</a></li>
+        <li><a class="dropdown-item" href="/">
+            <i class="bi bi-truck mb-1 lg-mx-auto sm-ml-auto" style="font-size: 1.5rem;"></i>
+            Contato</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Me siga</a></li>
+    <div class="d-flex flex-column">
+      <hr class="bg-white dropdown-divider">
+      <p class="text-center text-muted">
+        © Copyright 2023 <br>
+        <i class="bi bi-pc-display-horizontal"></i>
+        HU3 Informática
+      </p>
+    </div>
+  </ul>
+</nav>
