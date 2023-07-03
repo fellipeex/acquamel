@@ -1,6 +1,7 @@
 
 import {DBCONFIG} from './config.js'
 import mysql from 'mysql2/promise'
+import fs from 'fs';
 
 const POOL = mysql.createPool(DBCONFIG);
 let connection = null;
@@ -14,8 +15,15 @@ class MySQLConnection {
 
   async connect() {
     if (!this.connection || this.connection.state === 'disconnected') {
-      this.connection = await this.pool.getConnection();
-      console.log('Conectado ao Banco de dados: ' + this.config.database);
+      try {
+        this.connection = await this.pool.getConnection();
+        console.log('Conectado ao Banco de dados: ' + this.config.database);
+      } catch (err) {
+        console.error('Erro ao conectar ao banco de dados.\nCriando arquivo de reset...');
+        // Criar o arquivo restart.txt em caso de erro
+        fs.writeFileSync('restart.txt', 'Erro ao conectar ao banco de dados');
+        throw err;
+      }
     }
   }
 
@@ -38,7 +46,7 @@ class MySQLConnection {
       const [rows, fields] = await this.connection.query(sql, params);
       return rows;
     } catch (err) {
-      console.error(err);
+        console.error(err);
       throw err;
     }
   }
@@ -66,7 +74,7 @@ class MeuBD {
     } catch (err) {
       console.error('Heartbeat failed', err);
       await this.liberar();
-      await this.conectar();
+      await this.connection.connect();
     }
   }
 }

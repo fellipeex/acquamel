@@ -3,4 +3,4 @@ server.crt
 server.csr
 server.key
 ./node_modules
-.env
+/src/Config/env/.env
