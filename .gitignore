@@ -2,5 +2,6 @@ comandos.txt
 server.crt
 server.csr
 server.key
-./node_modules
-/src/Config/env/.env
+/node_modules/
+/src/Config/env/
+restart.txt
